@@ -1,0 +1,44 @@
+header{
+    background-color: black;
+    width: 100%;
+    color: whitesmoke;
+    padding: 0.4rem;
+}
+
+h3{
+    font-size: 20px;
+    margin-left: 0.7rem;
+    margin-top: 0.2rem;
+}
+
+body{
+    margin: auto;
+    padding: auto;
+
+}
+
+h2{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 25px;
+}
+#nombre-marqueurs{
+    margin-bottom: 1rem;
+}
+
+#emetteur{
+    margin-bottom: 1rem;
+}
+.parametre-detection-contamination {
+    margin-top: 5rem;
+    margin-left: 2rem;
+}
+
+.parametre-editeur {
+    margin-top: 5rem;
+    margin-left: 2rem;
+}
+
+.bouton-parametres{
+    margin-top: 10rem;
+}

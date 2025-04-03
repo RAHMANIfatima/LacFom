@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import index
+from .views import afficher_importation
 
 urlpatterns = [
-    path('',index,name='analyse-index')
+    path("importation/",afficher_importation,name="importation"),
 ]

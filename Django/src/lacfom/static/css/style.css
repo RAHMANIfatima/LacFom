@@ -1,0 +1,68 @@
+body {
+    height: 100%;
+    text-align: center;
+    /* background-image: url("logo.png"); */
+    /* background-position-x: center; background-position-y: 10rem;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 250px; */
+}
+
+
+.Bienvenue{
+    padding-top: 5rem;
+    position: relative;
+}
+.logo{
+    position: absolute;
+    top : 10rem;
+    right:44%;
+    /* left: 75%; */
+    
+}
+.Message-bienvenue{
+    margin-top: 20rem;
+}
+
+#Importation{
+    padding-top: 1rem;
+}
+
+button{
+    background-color: #161f34;
+    color: #cbddef;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1rem;
+    padding: 1rem;
+    /* width: 5rem; */
+    cursor: pointer;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.2s;
+}
+
+button:hover{
+    background-color: #cbddef;
+    color: #161f34;
+    text-align: center;
+    font-size: 1rem;
+}
+
+#Autres{
+    display: flex;
+    margin-top: 5rem;
+}
+
+#Autres form {
+    display: inline-block;
+}
+
+footer{
+    /* margin-top: 12rem; */
+    position:absolute;
+    bottom: 0; left: 0;right: 0;
+    padding: 0.6rem;
+    background-color: #cbddef;
+}

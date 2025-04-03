@@ -1,5 +1,6 @@
 from django.shortcuts import render
 # Create your views here.
 
-def index(request):
-    return render(request,"analyse/index.html")
+def afficher_importation(request):
+    contenu = request.session.pop("contenu_fichier", None)  # Récupère le contenu et le supprime après affichage
+    return render(request, "analyse/importation.html", {"contenu": contenu})
