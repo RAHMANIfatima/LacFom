@@ -1,0 +1,55 @@
+:root {
+    /* Couleurs Logo de base CHU Bordeaux */
+    --primary-color: #005782;
+    --primary-vibrant-color: #00abff;
+    --primary-soft-color: #44809d;
+    --primary-softer-color: #66a2be;
+    --secondary-color: #04a06f;
+    --secondary-vibrant-color: #00ffaf;
+    --secondary-soft-color: #62c6a7;
+
+    /* Couleurs charte graphique */
+    /* Teintes soutenues */
+    --rouge: #cc0935;
+    --corail: #e94e1b;
+    --saumon: #f18a78;
+    --orange: #f39200;
+    --chatain: #a5806c;
+    --violet: #653e91;
+    --violine: #ad0470;
+    --rose: #ee76ab;
+    --mauve: #ce82b6;
+    --marron: #7b6a58;
+    --roi: #1e69b2;
+    --azur: #47bcca;
+    --pomme: #5cb248;
+    --pistache: #88bf57;
+
+    /* Teintes pastels */
+    --miel: #f9bb5b;
+    --mais: #ffdb91;
+    --beige: #d4b49c;
+    --argile: #ddd7c8;
+    --rose-pale: #f4c8df;
+    --peche: #f9d9da;
+    --bleuet: #cad7ef;
+    --ciel: #d2e9fa;
+    --vert-deau: #b8d9ab;
+    --opaline: #afd8c3;
+
+	/* Couleurs ajoutées */
+	--red-background : #f5c6cb;
+    --gray-background : #6B6B6B8F;
+
+    /* Boostrap colors */
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-dark-secondary: #495057;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+
+}

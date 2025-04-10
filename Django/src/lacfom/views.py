@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.core.files.storage import default_storage
+from django.contrib import messages
 
 def index(request):
     user_name = request.user.username if request.user.is_authenticated else "Utilisateur"
@@ -21,6 +22,7 @@ def importer_fichier(request):
             return redirect("importation")
         else:
             print("ça marche pas")
+            messages.error(request,"Le fichier doit être un fichier au format .txt.")
             return render(request, "lacfom/index.html", {"erreur": "Format invalide. Seuls les fichiers .txt sont autorisés."})
     print("Why ?")
     return render(request, "lacfom/index.html", {"erreur": "Veuillez importer un fichier .txt valide."})
