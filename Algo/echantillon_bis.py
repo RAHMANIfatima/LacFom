@@ -1,3 +1,7 @@
+from mere import Mere
+from foetus import Foetus
+from pere import Pere
+from temoin import Temoin
 import json
 
 class Echantillon:
