@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import afficher_importation
+from .views import traiter_choix
 
 urlpatterns = [
-    path("importation/",afficher_importation,name="importation"),
+    path("identification/",traiter_choix,name="traiter_choix"),
 ]
