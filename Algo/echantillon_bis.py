@@ -91,21 +91,19 @@ class Echantillon:
         marqueurs.remove('AMEL')
 
         # Utilisation de kit.json
-        kit_markers = self.kit_data.get("kitPP16", [])
+        kit_markers = self.kit_data.get("kitPP16", []) # je recup les marqueurs du kit.json
 
         for marqueur in marqueurs:
             if marqueur in kit_markers:
-                # Logic for analysis based on marker presence in the kit
-                if marqueur in self.tpos_data:
+                if marqueur in self.tpos_data: # on regarde si le marqueur est dans les données de 'tpos.json'
                     tpos_values = self.tpos_data[marqueur]
-                    # Update foetus data based on tpos values
+                    # on met à jour les données du foetus avec les valeurs 'TPO' du marqueur
                     self.foetus.data[marqueur]["TPO"] = tpos_values
 
-                # Logique d'analyse spécifique pour les autres marqueurs
+                # analyse spécifiques pour les autres marqueurs
                 if len(self.mere.data[marqueur]["Allele"]) == 1:
                     self.foetus.data[marqueur]["détails"] = "Mère homozygote"
                     self.foetus.data[marqueur]["conclusion"] = "Non informatif"
-                # Alleles mere inclus dans alleles foetus:
                 elif len(set(self.foetus.data[marqueur]["Allele"]).intersection(set(self.mere.data[marqueur]["Allele"]))) == 2:
                     pic1 = self.foetus.data[marqueur]["Hauteur"][self.foetus.data[marqueur]["Allele"].index(self.mere.data[marqueur]["Allele"][0])]
                     pic2 = self.foetus.data[marqueur]["Hauteur"][self.foetus.data[marqueur]["Allele"].index(self.mere.data[marqueur]["Allele"][1])]
