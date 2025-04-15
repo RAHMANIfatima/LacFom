@@ -10,15 +10,6 @@ body {
     font-size: 1.5rem;
 }
 
-
-.Bienvenue{
-    padding-top: 5rem;
-    position: relative;
-    font-family: "Special Gothic Condensed One", sans-serif;
-    color: var(--primary-color);
-
-}
-
 .logo{
     position: absolute;
     top : 10rem;
