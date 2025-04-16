@@ -1,6 +1,7 @@
 from django.urls import path, include
 
-from App.views import add_kit, changer_parametres, delete_kit, importer_fichier, index, manuel_utilisation, marquers, traiter_choix
+from App.Views.kits_views import add_kit, delete_kit, marquers
+from App.views import changer_parametres, importer_fichier, index, manuel_utilisation, traiter_choix
 
 urlpatterns = [
     path('',index, name='index'),
