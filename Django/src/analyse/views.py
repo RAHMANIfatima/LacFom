@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+from lacfom.services.marquers.marquers import get_kits
+
+
 # from Algo.echantillon import echantillon
 # from Algo.individus import individus
 # from Algo.foetus import foetus
@@ -15,6 +18,7 @@ def afficher_importation(request):
 def traiter_choix(request):
     samples=request.session.get("samples")
     data=request.session.get("data")
+    kits=request.session.get("kits")
     # print(f"Longueur de samples2 : {len(samples)}")
     # print(f"Longueur de data2 : {len(data)}")
     
@@ -29,4 +33,5 @@ def traiter_choix(request):
     return render(request, "analyse/identification.html", {
                       "samples":samples,
                       "data":data,
+                      "kits":get_kits(),
     })

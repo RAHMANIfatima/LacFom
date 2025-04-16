@@ -20,6 +20,8 @@ from .views import index,importer_fichier,manuel_utilisation,changer_parametres
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
+from . import views
 
 
 urlpatterns = [
@@ -30,6 +32,10 @@ urlpatterns = [
     # path("importation/",afficher_importation,name="importation"),
     path('manuel-d-utilisation/',manuel_utilisation,name='manuel_utilisation'),
     path('parametres/',changer_parametres,name='changer_parametres'),
+    path('marquers/', views.marquers, name='marquers'), 
+    path('add-kit/', views.add_kit, name='add-kit'),
+    path('delete-kit/<str:kit_name>/', views.delete_kit, name='delete-kit'),
+    # ...
 ]
 
 

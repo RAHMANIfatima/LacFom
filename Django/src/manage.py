@@ -2,6 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lacfom.settings')
 
 
 def main():
