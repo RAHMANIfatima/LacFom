@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un Kit</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .marker-group {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #fdfdfd;
+            position: relative;
+        }
+
+        .remove-marker {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 14px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .remove-marker:hover {
+            text-decoration: underline;
+        }
+
+        #markers-container {
+            margin-bottom: 20px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-actions button {
+            width: 48%;
+        }
+    </style>
+    <script>
+        function addMarker() {
+            const markerContainer = document.getElementById('markers-container');
+            const markerIndex = markerContainer.children.length;
+
+            const markerGroup = document.createElement('div');
+            markerGroup.className = 'marker-group';
+            markerGroup.innerHTML = `
+                <label>Nom du Marqueur :</label>
+                <input type="text" name="markers[${markerIndex}][name]" required>
+                <label>Allèles (séparés par des virgules) :</label>
+                <input type="text" name="markers[${markerIndex}][alleles]" required>
+                <span class="remove-marker" onclick="removeMarker(this)">Supprimer</span>
+            `;
+            markerContainer.appendChild(markerGroup);
+        }
+
+        function removeMarker(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+    <form method="POST" action="">
+        <h1>Ajouter un Kit</h1>
+        {% csrf_token %}
+        <label for="kit_name">Nom du Kit :</label>
+        <input type="text" id="kit_name" name="kit_name" placeholder="Entrez le nom du kit" required>
+        <h3>Marqueurs :</h3>
+        <div id="markers-container"></div>
+        <div class="form-actions">
+            <button type="button" onclick="addMarker()">Ajouter un Marqueur</button>
+            <button type="submit">Ajouter le Kit</button>
+        </div>
+    </form>
+</body>
+</html>

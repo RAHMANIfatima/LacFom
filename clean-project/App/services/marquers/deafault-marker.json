@@ -63,16 +63,10 @@
         ]
     },
     "Aliou": {
-        "ertdf": [
-            "dfg"
-        ],
-        "dg": [
-            "dg"
-        ]
-    },
-    "fghfghfghfh": {
-        "fghfgh": [
-            "fhfh"
+        "marker 1": [
+            1,
+            2,
+            3
         ]
     }
 }
