@@ -1,58 +1,54 @@
-from django.shortcuts import render
-from .marqueurs.marquers import get_kits, load_kits, save_kits
+from django.shortcuts import render,redirect
+from django.contrib import messages
+from .utils.lecteur_donnees import lecture_fichier
+from django.conf import settings
+import os
 
-from Algo.echantillon import Echantillon
-from Algo.individus import Individus
-from Algo.foetus import Foetus
-from Algo.mere import Mere
-from Algo.pere import Pere
-from Algo.temoin import Temoin
+def index(request):
+    user_name = request.user.username if request.user.is_authenticated else "Utilisateur"
+    texte = f"Bienvenue {user_name}"
+    version= 6.0
+    return render(request, "lacfom/index.html", {"texte": texte})
+
+def importer_fichier(request):
+    if request.method == "POST" and request.FILES.get("fichier"):
+        fichier = request.FILES["fichier"]  # Récupère le fichier sélectionné
+        if not fichier.name.endswith(".txt"):  # Vérifie que c'est bien un .txt
+            messages.error(request,"Le fichier doit être un fichier au format .txt.")
+            return render(request, "lacfom/index.html", {"erreur": "Format invalide. Seuls les fichiers .txt sont autorisés."})
+        
+
+        contenu = fichier.read()  # Lit le contenu du fichier
+        request.session["contenu_fichier"] = contenu.decode("utf-8")
+
+        uploads_path = os.path.join(settings.MEDIA_ROOT, "uploads")
+        os.makedirs(uploads_path, exist_ok=True)
+
+        chemin_fichier = os.path.join(uploads_path, fichier.name)
+        
+        with open(chemin_fichier,"wb") as dest:
+            dest.write(contenu)
+
+        resultat=lecture_fichier(chemin_fichier)
+            
+        if isinstance(resultat,str):
+            messages.error(request, f"Erreur de lecture du fichier : {resultat}")
+            return redirect("index")
+
+        samples, data=resultat
+        request.session["samples"]=samples
+        request.session["data"]=data
+
+        # print(f"Longueur de samples : {len(samples)}")
+        # print(f"Longueur de data : {len(data)}")
+
+        return redirect("traiter_choix") # traiter_choix se trouve dans la partie Analyse
+
+    return render(request, "lacfom/index.html", {"erreur": "Veuillez importer un fichier .txt valide."})
 
 
-def afficher_importation(request):
-    contenu = request.session.pop("contenu_fichier", None)  # Récupère le contenu et le supprime après affichage
-    return render(request, "analyse/visualisation.html", {"contenu": contenu})
+def manuel_utilisation(request):
+    return render(request,"lacfom/manuel.html")
 
-def traiter_choix(request):
-    samples=request.session.get("samples")
-    data=request.session.get("data")
-    kits=request.session.get("kits")
-    # print(f"Longueur de samples2 : {len(samples)}")
-    # print(f"Longueur de data2 : {len(data)}")
-    
-    if len(samples)==3:
-        print("Présence d'un père")
-        return render(request,"analyse/identification_avec_pere.html",{
-                      "samples":samples,
-                      "data":data,
-                      "kits":get_kits(),
-        })
-    
-    print("Absence de père")
-    return render(request, "analyse/identification.html", {
-                      "samples":samples,
-                      "data":data,
-                      "kits":get_kits(),
-    })
-
-def choix_kit(request):
-    return render(request,"analyse/marquers.html")
-
-def analyse_resultat(request):
-    N=request.session.get("N")
-    H=request.session.get("H")
-    
-    print(f"N: {N}\nH:{H}")
-    try : 
-        Echantillon.set_seuil_hauteur(H)
-        Echantillon.set_seuil_nbre_marqueurs(N)
-        print("Attribution des taux réussi")
-
-        Echantillon.analyse_marqueur()
-        print("Fonction analyse_données réussi")
-    
-    except Exception as e:
-        print(f"ERREUR : Chargement des données impossible \n{e}")
-    
-    return render(request,"analyse/resultat_analyse.html")
-
+def changer_parametres(request):
+    return render(request,"lacfom/parametres.html")
