@@ -124,7 +124,6 @@ class Echantillon:
                         self.foetus.data[marqueur]["conclusion"] = "Non contaminé"
                         self.foetus.data[marqueur]["détails"] = ""
 
-    # Ajoutez d'autres méthodes nécessaires pour le traitement avec les fichiers JSON ici.
 
     def get_resultats(self):
         """
