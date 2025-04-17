@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lacfom</title>
+</head>
+<body>
+    <header>
+        <h1>Contenu du fichier</h1>
+    </header>
+    
+    <a href="{% url 'traiter_choix' %}" id="Retour">Retour</a>
+    {% if contenu %}
+
+    <pre>{{ contenu }}</pre>
+    {% else %}
+
+    <p>Aucun fichier importé.</p>
+    {% endif %}
+
+</body>
+</html>
