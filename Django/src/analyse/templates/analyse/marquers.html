@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Kits - LacFoM</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color :#00abff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .accueil-btn {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            background-color:#5cb248;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .accueil-btn:hover {
+            background-color: #218838;
+        }
+
+        .accueil-btn img {
+            margin-right: 8px;
+        }
+
+        .kit-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .kit-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: space-between;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+        }
+
+        .kit-card h2 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #333;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 15px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .delete-btn[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .marker-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .marker-table th, .marker-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .marker-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        .marker-name {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Liste des Kits</h1>
+    </header>
+    <a href="{% url 'add-kit' %}" class="accueil-btn">
+        <img src="{% static 'images/plus-icon.png' %}" alt="Ajouter un Kit" width="20" height="20">
+        Ajouter un Kit
+    </a>
+    <main>
+        <div class="kit-container">
+            {% for kit_name, markers in marquers.items %}
+            <div class="kit-card">
+
+                <div>
+                    <h2>Kit: {{ kit_name }}</h2>
+                    <table class="marker-table">
+                        <thead>
+                            <tr>
+                                <th>Marqueur</th>
+                                <th colspan="3">Allèles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for marker_name, values in markers.items %}
+                            <tr>
+                                <td class="marker-name">{{ marker_name }}</td>
+                                {% for allele in values %}
+                                <td>{{ allele }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if forloop.first %}
+                <button class="delete-btn" disabled>Suppression désactivée</button>
+                {% else %}
+                <form method="POST" action="{% url 'delete-kit' kit_name=kit_name %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">Supprimer</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <footer>
+        <p>© 2025 LacFoM</p>
+    </footer>
+    
+</body>
+</html>
