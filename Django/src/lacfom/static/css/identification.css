@@ -17,6 +17,10 @@ h1{
     font-size: 1.5rem;
 }
 
+h3{
+    margin-left: 1rem;
+}
+
 body{
     height: 100rem;
     margin: auto;
@@ -31,6 +35,6 @@ table tr {
     height: 7rem; 
 }
 
-a{
-    margin-left: 1rem;
+.btn-group{
+    margin-left: auto;
 }

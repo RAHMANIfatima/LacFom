@@ -13,23 +13,37 @@
 <body>
     <header>
         <h1>Identification des individus</h1>
+        <div class="btn-group">
+            <form action="{% url 'index' %}">
+                <button class="btn btn-secondary">Accueil</button>
+            </form>
+
+            <div class="btn-grp">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
+                <div class="dropdown-menu">
+
+                    <form action="{% url 'choix_kit' %}">
+                        <button class="dropdown-item">Changer de kit</button>
+                    </form>
+    
+                    <form action="{% url 'afficher_importation' %}">
+                        <button class="dropdown-item">Visualiser les résultats</button>
+                    </form>
+    
+                </div>
+            </div>
+
+        </div>
     </header>
-    <!-- {% if contenu %}
-    <h2>Contenu du fichier :</h2>
-    <pre>{{ contenu }}</pre>
-    {% else %}
-    <p>Aucun fichier importé.</p>
-    {% endif %} -->
+    
     
     <div class="container">
         <h3 class="mt-4">Veuillez sélectionner les individus :  </h3>
-        <form action="{% url 'traiter_choix' %}" method="post">
-            {% csrf_token %}
-            <table class="table table-borderless m-5">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Foetus</th>
+        <table class="table table-borderless m-5">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Foetus</th>
                         <th>Mère</th>
                     </tr>
                 </thead>
@@ -47,10 +61,14 @@
                 </tbody>
             </table>
             <div class="text-center">
-                <button class="btn btn-primary btn-lg" type="submit">Valider</button>
+                <form action="{% url 'analyse_resultat' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-lg" type="submit">Valider</button>
+                </form>
             </div>
-        </form>
     </div>
+
+    <h3 class="nom_kit">Kit utilisé pour l'analyse : </h3>
 
     <div class="toast show position-fixed top-0 end-0 m-3">
         <div class="toast-header">
@@ -62,6 +80,5 @@
         </div>
     </div>
 
-    <a href="{% url 'index' %}" id="Retour">Retour à l'accueil</a>
 </body>
 </html>
