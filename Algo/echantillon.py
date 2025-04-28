@@ -21,7 +21,7 @@ class Echantillon:
         ?? conclusion (int) : contaminated sample (1) or not (0)
     """
 
-    def __init__(self, date, mere, foetus, tpos, tneg, pere = None, seuil_nbre_marqueurs=2, seuil_hauteur=1 / 3):
+    def __init__(self, date, mere, foetus, tpos, tneg, pere = None, seuil_nbre_marqueurs=2, seuil_hauteur=1 / 3, kit):
         """ The constructor for Echantillon class
 
         Parameters:
@@ -35,8 +35,8 @@ class Echantillon:
         self.date = date
         self.mere = Mere(*mere)
         self.foetus = Foetus(*foetus)
-        self.tpos = Temoin(*tpos)
-        self.tneg = Temoin(*tneg)
+        self.tpos = Temoin(*tpos, kit)
+        self.tneg = Temoin(*tneg, kit)
         if pere:
             self.pere = Pere(*pere)
         else:

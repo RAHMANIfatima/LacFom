@@ -74,6 +74,7 @@ def traiter_choix(request):
         return render(request,"analyse/identification_avec_pere.html",{
                       "samples":samples,
                       "data":data,
+                      "kits":get_kits(),
         })
     
     print("Absence de père")

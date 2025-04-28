@@ -9,6 +9,8 @@ from datetime import datetime
 from time import strftime
 import re
 from echantillon import *
+from kit import Kit  # ajout pour charger le kit
+
 #from individus import *
 #from mere import *
 #from foetus import *
@@ -70,7 +72,7 @@ def lecture_fichier(path_data_frame):
 
     return [allsamples, donnees]
 
-def computedata(samples, donnees):
+def computedata(samples, donnees, kit):
     """
     samples: dictionnary of samples names with their type (mother, foetus, father)
     donnees: dataframe of data with TPOS and TNEG names normalized
@@ -106,7 +108,7 @@ def computedata(samples, donnees):
                 logger.info(donnees["Marker"][ligne + i])
                 return "Le marqueur n'a pas le meme nombre d'alleles que de hauteurs"
 
-    echantillon = Echantillon(date_echantillon, *data) #date, mere, foetus, tpos, tneg, pere = None, seuil_nbre_marqueurs=2, seuil_hauteur=1 / 3
+    echantillon = Echantillon(date_echantillon, *data, kit) #date, mere, foetus, tpos, tneg, pere = None, seuil_nbre_marqueurs=2, seuil_hauteur=1 / 3
     logger.info("Chargement des données réussi")    
     return echantillon
 
@@ -137,10 +139,12 @@ def concordance_ADN(echantillon):
 if __name__ == "__main__":
     file_path = sys.argv[1]
     print(file_path)
+    kit_path = sys.argv[2]  # ← fichier JSON passé en argument
+    kit = Kit(name="PP16", json_path=kit_path)
     samples, donnees = lecture_fichier(file_path)
     print(samples)
     samples = {"mother":'1-192107', "foetus":'2-200544', "father":'3-192106'}
-    echantillon = computedata(samples, donnees)
+    echantillon = computedata(samples, donnees, kit)
     # Check temoins
     checktpos = echantillon.tpos.check()
     checktneg = echantillon.tneg.check()

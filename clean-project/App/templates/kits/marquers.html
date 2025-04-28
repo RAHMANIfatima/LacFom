@@ -130,6 +130,12 @@
             margin-top: 20px;
         }
 
+        .button-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         footer p {
             margin: 0;
             font-size: 0.9em;
@@ -141,10 +147,13 @@
     <header>
         <h1>Liste des Kits</h1>
     </header>
-    <a href="{% url 'add-kit' %}" class="accueil-btn">
-        <img src="{% static 'images/plus-icon.png' %}" alt="Ajouter un Kit" width="20" height="20">
-        Ajouter un Kit
-    </a>
+    <div class="button-container">
+        <button type="button" onclick="window.location.href='{% url 'index' %}'" class="btn btn-outline-secondary">Retour à l'Acceuil</button>
+        <a href="{% url 'add-kit' %}" class="accueil-btn">
+            <img src="{% static 'images/plus-icon.png' %}" alt="Ajouter un Kit" width="20" height="20">
+            Ajouter un Kit
+        </a>
+    </div>
     <main>
         <div class="kit-container">
             {% for kit_name, markers in marquers.items %}
