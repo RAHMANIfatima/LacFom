@@ -1,52 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Special+Gothic+Condensed+One&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Condensed+One&display=swap');
 
 body {
-    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     text-align: center;
     font-family: "Pathway Gothic One", sans-serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 
-.Bienvenue{
-    padding-top: 5rem;
-    position: relative;
+
+.Bienvenue {
+    padding-top: clamp(1rem, 4vh, 3rem);
+    /* position: relative; */
     font-family: "Special Gothic Condensed One", sans-serif;
     color: var(--primary-color);
-
 }
 
-.logo{
-    position: absolute;
-    top : 10rem;
-    right:44%;
-    
-}
-.Message-bienvenue{
-    margin-top: 20rem;
-    font-family: "Special Gothic Condensed One", sans-serif;
-
-}
-
-#Importation{
-    padding-top: 1rem;
-}
-
-.toast-header{
-    font-size: 1.5rem;
-
-}
-.toast-body{
-    font-size: 1.2rem;
-}
-
-
-#Autres{
+.logo-container {
     display: flex;
-    margin-top: 5rem;
+    justify-content: center;
+    margin-top: clamp(1rem, 5vh, 3rem);
+}
+
+.logo {
+    height: auto;
+    max-width: clamp(100px,20vw,250px);
+}
+
+.Message-bienvenue {
+    margin-top: clamp(1rem, 4vh, 3rem);
+    font-family: "Special Gothic Condensed One", sans-serif;
+    font-size: clamp(1.2rem, 2vw, 2rem);
+}
+
+#Importation {
+    padding-top: clamp(0.5rem, 2vh, 1.5rem);
+}
+
+.toast-header {
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+}
+
+.toast-body {
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+}
+
+#Autres {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: clamp(2rem, 6vh, 5rem);
 }
 
 #Autres form {
@@ -54,9 +65,11 @@ body {
 }
 
 footer {
-    margin-top: 12rem; 
-    position: absolute;
-    bottom: 0; left: 0;right: 0;
-    padding: 0.6rem;
+    margin-top: auto;
+    /* position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+    padding: clamp(0.4rem, 1vh, 0.6rem);
     background-color: var(--bleuet);
 }
