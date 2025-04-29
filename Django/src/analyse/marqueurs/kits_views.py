@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from analyse.marqueurs.marquers import get_kits, load_kits, save_kits
-from lacfom.utils.lecteur_donnees import lecture_fichier
+from lacfom.utils.traitement import lecture_fichier
 from django.conf import settings
 
 

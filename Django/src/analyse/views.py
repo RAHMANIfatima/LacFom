@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .marqueurs.marquers import get_kits, load_kits, save_kits
 
 from Algo.echantillon import Echantillon
@@ -7,6 +7,7 @@ from Algo.foetus import Foetus
 from Algo.mere import Mere
 from Algo.pere import Pere
 from Algo.temoin import Temoin
+from lacfom.utils import traitement
 
 
 def afficher_importation(request):
@@ -14,7 +15,7 @@ def afficher_importation(request):
     return render(request, "analyse/visualisation.html", {"contenu": contenu})
 
 def traiter_choix(request):
-    samples=request.session.get("samples")
+    samples=request.session.get("samples") 
     data=request.session.get("data")
     kits=request.session.get("kits")
     # print(f"Longueur de samples2 : {len(samples)}")
@@ -38,21 +39,34 @@ def traiter_choix(request):
 def choix_kit(request):
     return render(request,"analyse/marquers.html")
 
+def attribution_origine(request):
+    samples=request.session.get("samples") 
+    data=request.session.get("data")
+    
+    print("Attribution origine")
+
+    return redirect("analyse_resultat")
+
 def analyse_resultat(request):
     N=request.session.get("N")
     H=request.session.get("H")
-    
-    print(f"N: {N}\nH:{H}")
-    try : 
-        Echantillon.set_seuil_hauteur(H)
-        Echantillon.set_seuil_nbre_marqueurs(N)
-        print("Attribution des taux réussi")
+    samples=request.session.get("samples") 
+    data=request.session.get("data")
 
-        Echantillon.analyse_marqueur()
-        print("Fonction analyse_données réussi")
+    try : 
+        echantillon = traitement.computedata(samples, data)
+        echantillon.InfoParametre["Echantillon"]=echantillon
+        
+        if N and H is not None:
+            echantillon.set_seuil_hauteur(H)
+            echantillon.set_seuil_nbre_marqueurs(N)
+            print("Attribution des taux réussi")
+
+        print(f"N: {echantillon.seuil_nbre_marqueurs}\nH:{echantillon.seuil_hauteur}")
+        # echantillon.analyse_marqueur()
+        # print("Fonction analyse_données réussi")
     
     except Exception as e:
         print(f"ERREUR : Chargement des données impossible \n{e}")
     
     return render(request,"analyse/resultat_analyse.html")
-

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .utils.lecteur_donnees import lecture_fichier
+from .utils.traitement import lecture_fichier
 from django.conf import settings
 import os
 
@@ -41,6 +41,9 @@ def importer_fichier(request):
 
         # print(f"Longueur de samples : {len(samples)}")
         # print(f"Longueur de data : {len(data)}")
+        # print(f"Contenu de samples : {samples}")
+        # print(f"Contenu de data : {data}")
+
 
         return redirect("traiter_choix") # traiter_choix se trouve dans la partie Analyse
 
@@ -51,4 +54,41 @@ def manuel_utilisation(request):
     return render(request,"lacfom/manuel.html")
 
 def changer_parametres(request):
-    return render(request,"lacfom/parametres.html")
+    valeurs_defaut = {
+        "nmarqueurs": "2",
+        "hpics": "1/3",
+        "emet": "PBP-P2A-GEN",
+        "enti": "PBP-PTBM"
+    }
+
+    if request.method == "POST":
+        if "reset" in request.POST:
+            # Si on clique sur le bouton Réinitialiser = valeurs par défaut
+            request.session["parametres"] = valeurs_defaut
+            
+        else:
+            # Sinon, on enregistre les nouvelles valeurs
+            request.session["parametres"] = {
+                "nmarqueurs": request.POST.get("nmarqueurs", "2"),
+                "hpics": request.POST.get("hpics", "1/3"),
+                "emet": request.POST.get("emet", "PBP-P2A-GEN"),
+                "enti": request.POST.get("enti", "PBP-PTBM")
+            }
+
+        return redirect("changer_parametres")  # On recharge la page pour afficher les valeurs mises à jour
+
+    # Récupération des paramètres depuis la session ou valeurs par défaut
+    parametres = request.session.get("parametres", valeurs_defaut)
+
+    for valeur in parametres.keys():
+        print(f"{valeur} : {parametres[valeur]}")
+
+    print("#############")
+    print(f'N={parametres["nmarqueurs"]} et H={parametres["hpics"]}')
+
+    request.session["N"]=parametres["nmarqueurs"]
+    request.session["H"]=parametres["hpics"]
+    request.session["emetteur"]=parametres["emet"]
+    request.session["entite"]=parametres["enti"]
+
+    return render(request, "lacfom/parametres.html", {"parametres": parametres})

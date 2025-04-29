@@ -61,7 +61,7 @@
                 </tbody>
             </table>
             <div class="text-center">
-                <form action="{% url 'analyse_resultat' %}" method="post">
+                <form action="{% url 'attribution_origine' %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-primary btn-lg" type="submit">Valider</button>
                 </form>
@@ -79,6 +79,5 @@
           <p>Le fichier a été importé avec succès</p>
         </div>
     </div>
-
 </body>
 </html>
