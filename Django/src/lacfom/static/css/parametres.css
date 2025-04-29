@@ -1,60 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Special+Gothic+Condensed+One&display=swap');
 
-header{
+header {
     background-color: var(--bleuet);
     width: 100%;
     color: whitesmoke;
     padding: 0.4rem;
 }
 
-h2{
+h2 {
     text-align: center;
     text-transform: uppercase;
-    font-size: 25px;
     color: var(--primary-color);
     font-family: "Special Gothic Condensed One", sans-serif;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
 }
 
-h3{
-    font-size: 20px;
-    margin-left: 0.7rem;
-    margin-top: 0.2rem;
+h3 {
+    margin-left: clamp(0.3rem, 1vw, 1rem);
+    margin-top: clamp(0.1rem, 0.5vh, 0.5rem);
     color: var(--primary-color);
     font-family: "Special Gothic Condensed One", sans-serif;
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 1.2vw, 1.5rem);
 }
 
-body{
+body {
     margin: auto;
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
-    font-size: 1.5rem;
-
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
 }
 
-#nombre-marqueurs{
+#nombre-marqueurs,
+#emetteur {
     margin-bottom: 1rem;
 }
 
-#emetteur{
-    margin-bottom: 1rem;
-}
-.parametre-detection-contamination {
-    margin-top: 5rem;
-    margin-left: 2rem;
-}
-
+.parametre-detection-contamination,
 .parametre-editeur {
-    margin-top: 5rem;
-    margin-left: 2rem;
+    margin-top: clamp(3rem, 6vh, 5rem);
+    margin-left: clamp(1rem, 3vw, 3rem);
 }
 
-.bouton-parametres{
-    margin-top: 10rem;
+.bouton-parametres {
+    margin-top: clamp(4rem, 10vh, 10rem);
 }
 
-
-a{
-    margin-left: 1rem;
+a {
+    margin-left: clamp(0.5rem, 1vw, 1rem);
 }
