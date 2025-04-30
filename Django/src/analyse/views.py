@@ -111,7 +111,7 @@ def analyse_resultat(request):
 
 def affichage_resultat(request):
     """
-    Page d'affichage du résulat de l'analyse de l'échantillon
+    Page d'affichage du résulat de l'analyse de l'échantillon.
     """
     echantillon=request.session.get("echantillon")
     version=request.session.get("version")
@@ -127,11 +127,11 @@ def affichage_resultat(request):
 
     try:
         sexe=echantillon.foetus.get_sexe()
-        df_conclusion=pd.DataFrame.from_dict(echantillon.get_resultats())
+        df_conclusion=pd.DataFrame.from_dict(echantillon.get_resultats()) #DF avec Marqueur | Conclusion | Détail M/F
         df_detail=echantillon.get_conclusion()
         code_conclu = echantillon.get_contamine()
         nom_projet = echantillon.get_id()
-        nom_mere= echantillon.mere.ID
+        num_mere= echantillon.mere.ID
         Emetteur= emetteur
         Entite_appli = entite
         # nom_pdf=str(echantillon.get_id()) + "_" + str(self.onglets[echantillon.get_id()]) + "_" + nom_utilisateur"]
@@ -151,4 +151,18 @@ def affichage_resultat(request):
         print(f"Erreur : {e}")
         return redirect("traiter_choix")
 
-    return render(request,"analyse/resultat_analyse.html")
+    tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False)
+    
+    print(df_detail)
+
+    return render (request,"analyse/resultat_analyse.html",{
+        "resultat":tableau_resultat,
+        "nom_projet":nom_projet,
+        "num_mere":num_mere,
+        "num_pere":num_pere,
+        "pres_pere":pres_pere,
+        "num_foetus":num_foetus,
+        "sexe":sexe,
+        "N":N,
+        "H":H,
+        })
