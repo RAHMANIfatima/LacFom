@@ -5,12 +5,26 @@ from django.conf import settings
 import os
 
 def index(request):
+    """
+    Page d'accueil de l'application.
+    """
     user_name = request.user.username if request.user.is_authenticated else "Utilisateur"
     texte = f"Bienvenue {user_name}"
     version= 6.0
+
+    request.session["version"]=version
+
     return render(request, "lacfom/index.html", {"texte": texte})
 
 def importer_fichier(request):
+    """
+    Fonction qui permet d'importer le fichier.
+    Vérifies que le fichier importé est bien un fichier texte, enregistres le fichier dans un dossier media/uploads et assigne le contenue du fichier aux variables samples et donnees.
+    sample : liste avec nom des échantillons
+    donnees :  dataframe avec l'ensemble de donnees
+
+    Rediriges vers la page d'identification des échantillons.
+    """
     if request.method == "POST" and request.FILES.get("fichier"):
         fichier = request.FILES["fichier"]  # Récupère le fichier sélectionné
         if not fichier.name.endswith(".txt"):  # Vérifie que c'est bien un .txt
@@ -51,9 +65,17 @@ def importer_fichier(request):
 
 
 def manuel_utilisation(request):
+    """
+    Page avec le manuel d'utilisation de l'application.
+    """
     return render(request,"lacfom/manuel.html")
 
 def changer_parametres(request):
+    """
+    Page paramètres.
+
+    Enregistre les valeurs entrées pour l'algorithme.
+    """
     valeurs_defaut = {
         "nmarqueurs": "2",
         "hpics": "1/3",
@@ -85,6 +107,7 @@ def changer_parametres(request):
 
     print("#############")
     print(f'N={parametres["nmarqueurs"]} et H={parametres["hpics"]}')
+
 
     request.session["N"]=parametres["nmarqueurs"]
     request.session["H"]=parametres["hpics"]
