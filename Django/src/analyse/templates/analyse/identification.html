@@ -23,7 +23,7 @@
                 <div class="dropdown-menu">
 
                     <form action="{% url 'choix_kit' %}">
-                        <button class="dropdown-item">Changer de kit</button>
+                        <button class="dropdown-item">Changer de kit</button> 
                     </form>
     
                     <form action="{% url 'afficher_importation' %}">
@@ -39,11 +39,13 @@
     
     <div class="container">
         <h3 class="mt-4">Veuillez sélectionner les individus :  </h3>
-        <table class="table table-borderless m-5">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Foetus</th>
+        <form action="{% url 'attribution_origine' %}" method="post">
+            {% csrf_token %}
+            <table class="table table-borderless m-5">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Foetus</th>
                         <th>Mère</th>
                     </tr>
                 </thead>
@@ -51,24 +53,21 @@
                     {% for nom in samples %}
                     <tr>
                         <th>{{ nom }}</th>
-                        {% for j in "12" %}
                         <td>
-                            <input type="radio" name="{{ nom }}" value="col_{{ j }}">
+                            <input type="radio" name="{{ nom }}" value="Foetus">
                         </td>
-                        {% endfor %}
+                        <td>
+                            <input type="radio" name="{{ nom }}" value="Mère">
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             <div class="text-center">
-                <form action="{% url 'attribution_origine' %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-primary btn-lg" type="submit">Valider</button>
-                </form>
+                <button class="btn btn-primary btn-lg" type="submit">Valider</button>
             </div>
+        </form>
     </div>
-
-    <h3 class="nom_kit">Kit utilisé pour l'analyse : </h3>
 
     <div class="toast show position-fixed top-0 end-0 m-3">
         <div class="toast-header">

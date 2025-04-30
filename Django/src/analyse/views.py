@@ -41,20 +41,34 @@ def choix_kit(request):
 
 def attribution_origine(request):
     samples=request.session.get("samples") 
-    data=request.session.get("data")
+
+    dictsamples={}
+
+    for nom in samples:
+        valeur=request.POST.get(nom)
+        if valeur:
+            dictsamples[valeur]=nom
+    
+    # if "foetus" not in dictsamples or "mother" not in dictsamples:
+    #     message.error(request,"Veuillez sélectionner un foetus et un mère.")
+    #     return redirect("Traiter choix")
     
     print("Attribution origine")
+    
+    for origine,sample in dictsamples.items():
+        print(f"{origine} --> {sample}")
 
+    request.session["dictsamples"]=dictsamples
     return redirect("analyse_resultat")
 
 def analyse_resultat(request):
     N=request.session.get("N")
     H=request.session.get("H")
-    samples=request.session.get("samples") 
+    dictsamples=request.session.get("dictsamples") 
     data=request.session.get("data")
 
     try : 
-        echantillon = traitement.computedata(samples, data)
+        echantillon = traitement.computedata(dictsamples, data)
         echantillon.InfoParametre["Echantillon"]=echantillon
         
         if N and H is not None:
