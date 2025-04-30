@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .utils.traitement import lecture_fichier
+from Algo.traitement import lecture_fichier
 from django.conf import settings
 import os
 
@@ -35,14 +35,14 @@ def importer_fichier(request):
             messages.error(request, f"Erreur de lecture du fichier : {resultat}")
             return redirect("index")
 
-        samples, data=resultat
+        samples, donnees=resultat
         request.session["samples"]=samples
-        request.session["data"]=data
+        request.session["donnees"]=donnees
 
         # print(f"Longueur de samples : {len(samples)}")
-        # print(f"Longueur de data : {len(data)}")
+        # print(f"Longueur de donnees : {len(donnees)}")
         # print(f"Contenu de samples : {samples}")
-        # print(f"Contenu de data : {data}")
+        # print(f"Contenu de donnees : {donnees}")
 
 
         return redirect("traiter_choix") # traiter_choix se trouve dans la partie Analyse

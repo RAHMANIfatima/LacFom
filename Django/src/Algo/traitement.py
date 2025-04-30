@@ -1,4 +1,3 @@
-#!/home/lbourgea/Documents/Projets/Exome/pipeline_annotation/venv/bin/python
 # -*- coding: utf-8 -*-
 
 import sys
@@ -8,7 +7,7 @@ import logging
 from datetime import datetime
 from time import strftime
 import re
-from echantillon import *
+from .echantillon import *
 #from individus import *
 #from mere import *
 #from foetus import *

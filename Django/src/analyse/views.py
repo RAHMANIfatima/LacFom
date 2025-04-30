@@ -7,7 +7,7 @@ from Algo.foetus import Foetus
 from Algo.mere import Mere
 from Algo.pere import Pere
 from Algo.temoin import Temoin
-from lacfom.utils import traitement
+from Algo import traitement
 
 
 def afficher_importation(request):
@@ -16,23 +16,23 @@ def afficher_importation(request):
 
 def traiter_choix(request):
     samples=request.session.get("samples") 
-    data=request.session.get("data")
+    donnees=request.session.get("donnees")
     kits=request.session.get("kits")
     # print(f"Longueur de samples2 : {len(samples)}")
-    # print(f"Longueur de data2 : {len(data)}")
+    # print(f"Longueur de data2 : {len(donnees)}")
     
     if len(samples)==3:
         print("Présence d'un père")
         return render(request,"analyse/identification_avec_pere.html",{
                       "samples":samples,
-                      "data":data,
+                      "donnees":donnees,
                       "kits":get_kits(),
         })
     
     print("Absence de père")
     return render(request, "analyse/identification.html", {
                       "samples":samples,
-                      "data":data,
+                      "donnees":donnees,
                       "kits":get_kits(),
     })
 
@@ -65,20 +65,24 @@ def analyse_resultat(request):
     N=request.session.get("N")
     H=request.session.get("H")
     dictsamples=request.session.get("dictsamples") 
-    data=request.session.get("data")
+    donnees=request.session.get("donnees")
 
     try : 
-        echantillon = traitement.computedata(dictsamples, data)
-        echantillon.InfoParametre["Echantillon"]=echantillon
-        
+        echantillon = traitement.computedata(dictsamples, donnees)
+        # echantillon.InfoParametre["Echantillon"]=echantillon
+        code=traitement.concordance_ADN(echantillon)
+        if code:
+            print(code)
+            return redirect("traiter_choix")
+
         if N and H is not None:
             echantillon.set_seuil_hauteur(H)
             echantillon.set_seuil_nbre_marqueurs(N)
             print("Attribution des taux réussi")
 
         print(f"N: {echantillon.seuil_nbre_marqueurs}\nH:{echantillon.seuil_hauteur}")
-        # echantillon.analyse_marqueur()
-        # print("Fonction analyse_données réussi")
+        echantillon.analyse_marqueur()
+        print("Fonction analyse_données réussi")
     
     except Exception as e:
         print(f"ERREUR : Chargement des données impossible \n{e}")
