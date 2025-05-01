@@ -11,6 +11,9 @@ class Kit:
         :param name: Nom du kit (str)
         :param json_path: Chemin vers le fichier JSON (str)
         """
+        print('---------------------kit dans temoins--------------------------------')
+        print(kit)
+        print('-----------------------------------------------------------')
         if kit is None:
             self.json_path = Path(__file__).resolve().parent / "kit_marqueurs.json"
             kit = self.load_data()

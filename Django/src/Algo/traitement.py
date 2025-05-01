@@ -107,8 +107,10 @@ def computedata(samples, donnees, kit=None):
                 # Le marqueur "dans le log" n'a pas le meme nombre d'alleles que de hauteurs
                 logger.info(donnees["Marker"][ligne + i])
                 return "Le marqueur n'a pas le meme nombre d'alleles que de hauteurs"
-
-    echantillon = Echantillon(date_echantillon, *data, kit) #date, mere, foetus, tpos, tneg, pere = None, seuil_nbre_marqueurs=2, seuil_hauteur=1 / 3
+    print('---------------------kit dans traitement--------------------------------')
+    print(kit)
+    print('-----------------------------------------------------------')
+    echantillon = Echantillon(date_echantillon, *data, kit=kit) #date, mere, foetus, tpos, tneg, pere = None, seuil_nbre_marqueurs=2, seuil_hauteur=1 / 3
     logger.info("Chargement des données réussi")    
     return echantillon
 
