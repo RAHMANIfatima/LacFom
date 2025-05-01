@@ -14,6 +14,9 @@
     <header>
         <h1>Identification des individus</h1>
         <div class="btn-grp">
+            <form action="{% url 'index' %}">
+                <button class="btn btn-secondary">Accueil</button>
+            </form>
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
             <div class="dropdown-menu">
                 <form id="upload-json-form" method="post" enctype="multipart/form-data">
