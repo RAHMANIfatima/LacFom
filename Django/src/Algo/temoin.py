@@ -1,5 +1,6 @@
 
 from Algo.individus import Individus
+from Algo.kit import Kit
 
 class Temoin(Individus):
     """ Common informations between mother, fetus and father
@@ -8,7 +9,7 @@ class Temoin(Individus):
             data (dict) : markers, alleles, heights and informatif character
     """
 
-    def __init__(self, ID, data, kit):
+    def __init__(self, ID, data, kit=None):
         """ The constructor for Patient class
 
             Parameters :
@@ -17,7 +18,8 @@ class Temoin(Individus):
             data (dict)
         """
         super().__init__(ID, data)
-        self.kit = kit
+        kitObject = Kit(kit)
+        self.kit = kitObject
         self.ispositif = self.det_genre()
         self.TPOS = self.kit.get_tpos_data()  # récupération dynamique du profil TPOS
 

@@ -72,7 +72,7 @@ def lecture_fichier(path_data_frame):
 
     return [allsamples, donnees]
 
-def computedata(samples, donnees, kit):
+def computedata(samples, donnees, kit=None):
     """
     samples: dictionnary of samples names with their type (mother, foetus, father)
     donnees: dataframe of data with TPOS and TNEG names normalized
