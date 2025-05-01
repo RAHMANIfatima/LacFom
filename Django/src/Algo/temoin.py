@@ -32,10 +32,6 @@ class Temoin(Individus):
             # Ni temoin positif ni negatif ... probleme
             return 6
 
-
-
-
-
     def check(self):
         """Vérifie la concordance entre les données du témoin et les valeurs attendues."""
         if self.ispositif == 6:

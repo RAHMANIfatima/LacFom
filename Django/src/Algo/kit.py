@@ -20,6 +20,7 @@ class Kit:
 
         self.tpos_data = kit.get("TPOS", {})  
         self.name = kit.get("name", 'PP16')
+        print(f'name kit {self.name} -----')
         
 
     def load_data(self):
