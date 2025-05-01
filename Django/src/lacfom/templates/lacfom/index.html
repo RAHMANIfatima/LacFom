@@ -18,7 +18,7 @@
     <body>
         <div class="Bienvenue">
             <h1>Bonjour {{user_name}}</h1>
-            <img src="{% static 'Lacfom/images/logo.png'%}" alt="Logo LacFom" class="logo" height="250"/>
+            <img src="{% static 'images/logo.png'%}" alt="Logo LacFom" class="logo" height="250"/>
 
         </div>
         <div class="Message-bienvenue">
@@ -65,7 +65,7 @@
 
                 <!-- image+bouton Paramètres -->
                 <div class="d-flex flex-column align-items-center">
-                    <img src="{% static 'Lacfom/images/parametres.png' %}" alt="Icone parametres" class="img-fluid mb-3" width="75">
+                    <img src="{% static 'images/parametres.png' %}" alt="Icone parametres" class="img-fluid mb-3" width="75">
                     <form action="{% url 'changer_parametres' %}">
                         <button type="submit" class="btn btn-secondary mb-2" >Paramètres</button>
 
@@ -74,7 +74,7 @@
 
                 <!-- image+bouton manuel d'utilisation -->
                 <div class="d-flex flex-column align-items-center">
-                    <img src="{% static 'Lacfom/images/manuel.png' %}" alt="Icone manuel" class="img-fluid mb-3" width="75">
+                    <img src="{% static 'images/manuel.png' %}" alt="Icone manuel" class="img-fluid mb-3" width="75">
                     <form action="{% url 'manuel_utilisation' %}">
                         <button type="submit" class="btn btn-secondary">Manuel d'utilisation</button>
                     </form>
