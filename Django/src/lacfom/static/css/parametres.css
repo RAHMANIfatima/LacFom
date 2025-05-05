@@ -30,13 +30,11 @@ body {
     font-size: clamp(1rem, 1.5vw, 1.5rem);
 }
 
-#nombre-marqueurs,
-#emetteur {
+#nombre-marqueurs,#emetteur {
     margin-bottom: 1rem;
 }
 
-.parametre-detection-contamination,
-.parametre-editeur {
+.parametre-detection-contamination,.parametre-editeur, .changement-kit {
     margin-top: clamp(3rem, 6vh, 5rem);
     margin-left: clamp(1rem, 3vw, 3rem);
 }

@@ -50,7 +50,13 @@
             </div>
 
             <div class="changement-kit">
-                <h2>Changer de kit</h2>
+                <h2>Parametres kit</h2>
+                <p>Changer de kit (défaut:PP16) </p>
+                <form id="upload-json-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- <label for="json-file">Changer de kit</label> -->
+                    <input type="file" id="json-file" name="json_file" accept=".json" class="form-control w-25">
+                </form>
             </div>
 
             <div class="bouton-parametres d-flex justify-content-center gap-3">
