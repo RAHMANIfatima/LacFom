@@ -1,6 +1,8 @@
 import ast
 from django.shortcuts import render,redirect
 from .marqueurs.marquers import get_kits, load_kits, save_kits
+from django.contrib import messages
+
 
 import pandas as pd
 import json
@@ -70,8 +72,12 @@ def attribution_origine(request):
     for nom in samples:
         valeur = request.POST.get(nom)
         if valeur:
-            dictsamples[valeur] = nom
-
+            dictsamples[valeur]=nom
+    
+    if "foetus" not in dictsamples or "mother" not in dictsamples:
+        messages.error(request,"Veuillez sélectionner un foetus et un mère.")
+        return redirect("Traiter choix")
+    
     print("Attribution origine")
     for origine, sample in dictsamples.items():
         print(f"{origine} --> {sample}")
@@ -102,7 +108,7 @@ def analyse_resultat(request):
         # echantillon.InfoParametre["Echantillon"]=echantillon
         code=traitement.concordance_ADN(echantillon)
         if code:
-            print(code)
+            messages.error(request,code)
             return redirect("traiter_choix")
 
 
@@ -111,12 +117,13 @@ def analyse_resultat(request):
             echantillon.set_seuil_nbre_marqueurs(float(N))
             print("Attribution des taux réussi")
 
-        print(f"N: {echantillon.seuil_nbre_marqueurs}\nH:{echantillon.seuil_hauteur}")
+        # print(f"N: {echantillon.seuil_nbre_marqueurs}\nH:{echantillon.seuil_hauteur}")
         echantillon.analyse_marqueur()
         print("Fonction analyse_données réussi")
     
     except Exception as e:
         print(f"ERREUR : Chargement des données impossible - {e} -")
+        messages.error(request,"Chargement des données impossible")
         return redirect("traiter_choix")
     
     request.session["echantillon"]=echantillon
@@ -141,7 +148,7 @@ def affichage_resultat(request):
 
     try:
         sexe=echantillon.foetus.get_sexe()
-        df_conclusion=pd.DataFrame.from_dict(echantillon.get_resultats()) #DF avec Marqueur | Conclusion | Détail M/F
+        df_conclusion=pd.DataFrame.from_dict(echantillon.get_resultats()) #DF avec Marqueur | Conclusion | Détails
         df_detail=echantillon.get_conclusion()
         code_conclu = echantillon.get_contamine()
         nom_projet = echantillon.get_id()
@@ -150,6 +157,22 @@ def affichage_resultat(request):
         Entite_appli = entite
         # nom_pdf=str(echantillon.get_id()) + "_" + str(self.onglets[echantillon.get_id()]) + "_" + nom_utilisateur"]
         Version= str(version)
+        is_tpos=len(echantillon.tpos.check())==0
+        is_tneg=len(echantillon.tneg.check())>0
+
+        # print(f"Tpos : {echantillon.tpos.check()}\nTneg :{echantillon.tneg.check()}")
+
+        if echantillon.concordance_mere_foet is True:
+            concordance_mere_foet="OUI"
+        else :
+            concordance_mere_foet="NON"
+        if echantillon.concordance_pere_foet is None:
+            concordance_pere_foet="ABS"
+        elif echantillon.concordance_pere_foet is True :
+            concordance_pere_foet="OUI"
+        else:
+            concordance_pere_foet="NON"
+
         print("Récupération des données réussi")
 
         if echantillon.concordance_pere_foet == None:
@@ -161,13 +184,23 @@ def affichage_resultat(request):
         num_foetus = echantillon.foetus.ID
         # filename = filename
         # path = instance_path
+
+        nb_marqueurs_informatifs_non_contaminés=df_detail[0]
+        nb_marqueurs_informatifs_contaminés=df_detail[1]
+        moyenne_conta=df_detail[2]
+
+        is_conta=code_conclu >1
+
     except Exception as e:
         print(f"Erreur : {e}")
+        messages.error(request,"Chargement des données impossible")
         return redirect("traiter_choix")
 
-    tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False)
-    
-    print(df_detail)
+    tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False) #TODO Faire en sorte que quand la conclusion est "non contaminé" la ligne soit verte et si la conclusion est "contaminé" la ligne est rouge
+    #Besoin importer Jinja2 ?
+
+    # print(df_detail)
+    # print(f"code_conclu: {code_conclu}")
 
     return render (request,"analyse/resultat_analyse.html",{
         "resultat":tableau_resultat,
@@ -177,6 +210,14 @@ def affichage_resultat(request):
         "pres_pere":pres_pere,
         "num_foetus":num_foetus,
         "sexe":sexe,
+        "is_tpos":is_tpos,
+        "is_tneg":is_tneg,
+        "concordance_mere_foet":concordance_mere_foet,
+        "concordance_pere_foet":concordance_pere_foet,
+        "nb_marqueurs_informatifs_non_contaminés":nb_marqueurs_informatifs_non_contaminés,
+        "nb_marqueurs_informatifs_contaminés":nb_marqueurs_informatifs_contaminés,
+        "moyenne_conta":moyenne_conta,
         "N":N,
-        "H":H,
+        "H":round(H,2),
+        "is_conta":is_conta,
         })

@@ -22,13 +22,11 @@ h3{
 }
 
 body{
-    height: 100rem;
+    height: 100%;
     margin: auto;
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 1.5rem;
-    
-
 }
 
 table tr {
