@@ -1,6 +1,5 @@
 from Algo.individus import Individus
 
-
 class Pere(Individus):
     """ Exclusive informations about the father. Pere class inherits from Patient.
 

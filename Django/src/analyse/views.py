@@ -1,9 +1,11 @@
+import ast
 from django.shortcuts import render,redirect
 from .marqueurs.marquers import get_kits, load_kits, save_kits
 from django.contrib import messages
 
 
 import pandas as pd
+import json
 
 from Algo.echantillon import Echantillon
 from Algo.individus import Individus
@@ -12,6 +14,7 @@ from Algo.mere import Mere
 from Algo.pere import Pere
 from Algo.temoin import Temoin
 from Algo import traitement
+from django.core.files.storage import FileSystemStorage
 
 
 def afficher_importation(request):
@@ -23,28 +26,23 @@ def afficher_importation(request):
 
 def traiter_choix(request):
     """
-    Affiche la page d'identifaction des échantillons.
-    Prends en comptes le nombre d'élements dans la variable sample et rediriges vers la page appropriée.
+    Affiche la page d'identification des échantillons.
+    Prend en compte le nombre d'éléments dans la variable sample et redirige vers la page appropriée.
     """
-    samples=request.session.get("samples") 
-    donnees=request.session.get("donnees")
-    kits=request.session.get("kits")
-    # print(f"Longueur de samples2 : {len(samples)}")
-    # print(f"Longueur de data2 : {len(donnees)}")
-    
-    if len(samples)==3:
+    samples = request.session.get("samples")
+    donnees = request.session.get("donnees")
+
+    if samples and len(samples) == 3:
         print("Présence d'un père")
-        return render(request,"analyse/identification_avec_pere.html",{
-                      "samples":samples,
-                      "donnees":donnees,
-                      "kits":get_kits(),
+        return render(request, "analyse/identification_avec_pere.html", {
+            "samples": samples,
+            "donnees": donnees,
         })
-    
+
     print("Absence de père")
     return render(request, "analyse/identification.html", {
-                      "samples":samples,
-                      "donnees":donnees,
-                      "kits":get_kits(),
+        "samples": samples,
+        "donnees": donnees,
     })
 
 def choix_kit(request):
@@ -52,15 +50,27 @@ def choix_kit(request):
 
 def attribution_origine(request):
     """
-    Attribue les échantillons à leur origine choisies dans la page d'identification
-    Enregistre les origines dans un dictionnaire sous la forme {'mere':'sample1','foetus':'sample2'}
+    Attribue les échantillons à leur origine choisies dans la page d'identification.
+    Enregistre les origines dans un dictionnaire sous la forme {'mere':'sample1','foetus':'sample2'}.
+    Gère également les données du kit si elles sont présentes.
     """
-    samples=request.session.get("samples") 
+    samples = request.session.get("samples")
+    kit_data = request.POST.get("kit_data")  # Récupérer les données du kit depuis le formulaire
 
-    dictsamples={}
+    # Si kit_data est présent dans le formulaire, le stocker dans la session
+    if kit_data:
+        try:
+            kit_data = json.loads(kit_data)  # Convertir en dictionnaire
+            request.session["kit_data"] = kit_data
+        except json.JSONDecodeError:
+            print("Erreur : données du kit invalides.")
+            kit_data = None
 
+    dictsamples = {}
+
+    # Récupérer les choix des utilisateurs pour chaque échantillon
     for nom in samples:
-        valeur=request.POST.get(nom)
+        valeur = request.POST.get(nom)
         if valeur:
             dictsamples[valeur]=nom
     
@@ -69,11 +79,12 @@ def attribution_origine(request):
         return redirect("Traiter choix")
     
     print("Attribution origine")
-    
-    for origine,sample in dictsamples.items():
+    for origine, sample in dictsamples.items():
         print(f"{origine} --> {sample}")
 
-    request.session["dictsamples"]=dictsamples
+    # Stocker les données dans la session
+    request.session["dictsamples"] = dictsamples
+
     return redirect("analyse_resultat")
 
 def analyse_resultat(request):
@@ -84,9 +95,16 @@ def analyse_resultat(request):
     H=request.session.get("H")
     dictsamples=request.session.get("dictsamples") 
     donnees=request.session.get("donnees")
+    selected_kit = request.session.get("kit_data")  # Récupérer le kit sélectionné
+    try:
+        if selected_kit and isinstance(selected_kit, str):
+            selected_kit = ast.literal_eval(selected_kit)
+    except:
+        print("une erreur est survenue lors de la conversion du kit")
+        selected_kit = None
 
     try : 
-        echantillon = traitement.computedata(dictsamples, donnees)
+        echantillon = traitement.computedata(dictsamples, donnees,selected_kit)
         # echantillon.InfoParametre["Echantillon"]=echantillon
         code=traitement.concordance_ADN(echantillon)
         if code:
