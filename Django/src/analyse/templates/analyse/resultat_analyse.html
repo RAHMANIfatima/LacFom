@@ -73,10 +73,54 @@
         </div>
         
     </div>
-
+    <!-- TODO Changer style des boutons : Inactif = Outline ; Actif : std -->
     <div class="conclusion">
-        <div class="conclusion-finale"></div>
-        <div class="resultat-conta"></div>
+        <div class="conclusion-finale">
+            <p>Le prélèvement foetal est : </p>
+            <form action="{% url 'attribution_origine' %}" method="post">
+                {% csrf_token %}
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <!-- Mets par défault le résultat conclue par l'algorithme -->
+                    {% if is_conta %}
+                        <label class="btn btn-danger btn-lg active">
+                            <input type="radio" name="contamination" value="contamine" autocomplete="off" checked> Contaminé
+                        </label>
+                        <label class="btn btn-success btn-lg active">
+                            <input type="radio" name="contamination" value="non-contamine" autocomplete="off"> Non contaminé
+                        </label>
+                    {% else %}
+                        <label class="btn btn-danger btn-lg active">
+                            <input type="radio" name="contamination" value="contamine" autocomplete="off"> Contaminé
+                        </label>
+                        <label class="btn btn-success btn-lg active">
+                            <input type="radio" name="contamination" value="non-contamine" autocomplete="off" checked> Non contaminé
+                        </label>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+        <div class="details-conta">
+            <table class="table table-responsive table-striped">
+                <tr>
+                    <td>Nombre de marqueurs informatifs non contaminés : </td>
+                    <td style="color: var(--pomme);">{{nb_marqueurs_informatifs_non_contaminés}}</td>
+                </tr>
+                <tr>
+                    <td>Nombre de marqueurs informatifs contaminés : </td>
+                    <td style="color: var(--rouge);">{{nb_marqueurs_informatifs_contaminés}}</td>
+                </tr>
+                <tr>
+                    <td>Moyenne % contamination : </td>
+                    {% if is_conta %}
+                    <td style="color: var(--rouge);">{{moyenne_conta}}</td>
+                    {% else %}
+                    <td style="color: var(--pomme);">{{moyenne_conta}}</td>
+                    {% endif %}
+                    
+                </tr>
+            </table>
+
+        </div>
     </div>
 
     <div class="parametres">
