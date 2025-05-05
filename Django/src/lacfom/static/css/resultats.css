@@ -36,7 +36,7 @@ body{
     margin: auto;
 }
 
-.informations{
+.informations, .parametres{
     display:flex;
     flex-direction:row;
     justify-content:space-between;
@@ -61,3 +61,4 @@ body{
 .identification li, .infos li,.infos-foetus li {
     list-style: none;
 }
+

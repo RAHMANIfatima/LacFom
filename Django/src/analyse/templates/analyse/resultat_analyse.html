@@ -49,10 +49,20 @@
 
         <div class="infos">
             <ul>
-                <li>Témoin positif : </li>
-                <li>Témoin négatif : </li>
-                <li>Concordance Mère/Foetus : </li>
-                <li>Concordance Père/Foetus : </li>
+                {% if is_tpos %}
+                <li>Témoin positif : <img src="{% static 'images/check.png' %} " alt="check" width="15"> </li>
+                {% else %}
+                <li>Témoin positif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
+                {% endif %}
+
+                {% if is_tneg %}
+                <li>Témoin négatif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
+                {% else %}
+                <li>Témoin négatif : <img src="{% static 'images/check.png' %} " alt="check" width="15"> </li>
+                {% endif %}
+
+                <li>Concordance Mère/Foetus : {{concordance_mere_foet}}</li>
+                <li>Concordance Père/Foetus : {{concordance_pere_foet}}</li>
             </ul>
         </div>
     </div>
@@ -65,11 +75,13 @@
     </div>
 
     <div class="conclusion">
-
+        <div class="conclusion-finale"></div>
+        <div class="resultat-conta"></div>
     </div>
 
     <div class="parametres">
-
+        <p>Nombre minimum de marqueurs informatifs contaminés : {{N}}</p>
+        <p>Hauteur de pics discriminant un allèle contaminé d'un allèle normal : {{H}}</p>
     </div>
 
 </body>

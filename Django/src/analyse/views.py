@@ -136,6 +136,20 @@ def affichage_resultat(request):
         Entite_appli = entite
         # nom_pdf=str(echantillon.get_id()) + "_" + str(self.onglets[echantillon.get_id()]) + "_" + nom_utilisateur"]
         Version= str(version)
+        is_tpos=len(echantillon.tpos.check())==0
+        is_tneg=len(echantillon.tneg.check())>0
+
+        if echantillon.concordance_mere_foet is True:
+            concordance_mere_foet="OUI"
+        else :
+            concordance_mere_foet="NON"
+        if echantillon.concordance_pere_foet is None:
+            concordance_pere_foet="ABS"
+        elif echantillon.concordance_pere_foet is True :
+            concordance_pere_foet="OUI"
+        else:
+            concordance_pere_foet="NON"
+
         print("Récupération des données réussi")
 
         if echantillon.concordance_pere_foet == None:
@@ -153,7 +167,7 @@ def affichage_resultat(request):
 
     tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False)
     
-    print(df_detail)
+    # print(df_detail)
 
     return render (request,"analyse/resultat_analyse.html",{
         "resultat":tableau_resultat,
@@ -163,6 +177,11 @@ def affichage_resultat(request):
         "pres_pere":pres_pere,
         "num_foetus":num_foetus,
         "sexe":sexe,
+        "is_tpos":is_tpos,
+        "is_tneg":is_tneg,
+        "concordance_mere_foet":concordance_mere_foet,
+        "concordance_pere_foet":concordance_pere_foet,
         "N":N,
-        "H":H,
+        "H":round(H,2),
+        "echantillon":echantillon,
         })
