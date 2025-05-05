@@ -26,22 +26,25 @@ body{
 }
 
 .resultats {
-    margin: 4vh auto; 
+    margin:auto;
     padding: 1rem;
     max-width: 75%;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .table-responsive {
     margin: auto;
 }
 
-.informations, .conclusion{
+.informations, .conclusion, .parametres{
     display:flex;
     flex-direction:row;
     justify-content:space-between;
     align-items: center;
     padding: 1rem;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
 }
 
 
@@ -52,12 +55,12 @@ body{
 
 
 .infos {
-    border-width: 3px;
+    border-width: 5px;
     border-style: double;
     border-color: var(--primary-color);
     columns: 2;
     column-gap: 0rem;
-    margin-right: 10%;
+    padding-right: 2.5%;
 }
 
 .identification li, .infos li,.infos-foetus li {
@@ -65,13 +68,20 @@ body{
 }
 
 .details-conta{
-    margin: 4vh auto; 
-    padding: 1rem;
     max-width: 50%;
 }
 
 .conclusion-finale,.details-conta{
-    border-style: solid;
-    border-width: 3px;
-    border-color: var(--primary-color);
+    margin: auto;
+}
+
+.conclusion-finale{
+    margin-top: 0;
+}
+
+.conclusion-finale input{
+    text-align: center;
+    width: 100%;
+    /* max-width: 50%; */
+
 }
