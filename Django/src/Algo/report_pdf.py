@@ -7,7 +7,7 @@ from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.styles import getSampleStyleSheet
 import re
 
-from echantillon import *
+from .echantillon import *
 
 def head_page(entite, emetteur, version, date):
     """

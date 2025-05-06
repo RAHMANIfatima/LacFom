@@ -13,9 +13,27 @@
 <body>
     <header>
         <h1>Page des résultats</h1>
-        <form action="{% url 'index' %}">
-            <button class="btn btn-secondary">Fichier</button>
-        </form>
+        <div class="btn-grp">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Fichier</button>
+            <div class="dropdown-menu">
+                <form id="upload-new-file method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="json-file">Nouvelle analyse</label>
+                    <input type="file" name="fichier" accept=".txt" class="form-control">
+                </form>
+            </div>
+            
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
+            <div class="dropdown-menu">
+                <form action="{% url 'afficher_importation' %}">
+                    <button class="dropdown-item">Visualiser les résultats</button>
+                </form>
+                <form action="{% url 'changer_parametres' %}">
+                    <button class="dropdown-item">Paramètres</button>
+                </form>
+            </div>
+
+        </div>
 
         
         </div>
@@ -59,6 +77,11 @@
         <div class="table-responsive">
             {{ resultat|safe }}
         </div>
+    <div class="exportation">
+        <a href="{% url 'exportation_pdf' %}" target="_blank">
+            <button type="submit">Export PDF </button>
+        </a>
+    </div>
         
     </div>
     <!-- TODO Changer style des boutons : Inactif = Outline ; Actif : std -->

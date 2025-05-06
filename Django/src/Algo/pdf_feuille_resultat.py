@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4,landscape
 from reportlab.platypus import Image, Table, TableStyle, Paragraph
@@ -128,13 +129,16 @@ def creat_struct_pdf(Concordance_mf, Concordance_pf,Entite_d_Application,Emetteu
 
     styles = getSampleStyleSheet()
     style = styles["Normal"]
+    current_dir = Path(__file__).resolve().parent
+    logo_chu_path = current_dir.parent / 'lacfom' / 'static' / 'images' / 'logo_chu.png'
+    logo_path=current_dir.parent / 'lacfom' / 'static' / 'images' / 'logo.png'
 
 
-    CHU = Image(os.path.join('logo_chu.png'))
+    CHU = Image(str(logo_chu_path))
     CHU.drawHeight = 3.18*cm*CHU.drawHeight / CHU.drawWidth
     CHU.drawWidth = 3.25*cm
 
-    LOGO = Image(os.path.join('logo.png'))
+    LOGO = Image(str(logo_path))
     LOGO.drawHeight = 1.25*cm*LOGO.drawHeight / LOGO.drawWidth
     LOGO.drawWidth = 1.25*cm
 

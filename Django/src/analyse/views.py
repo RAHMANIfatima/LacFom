@@ -2,10 +2,13 @@ import ast
 from django.shortcuts import render,redirect
 from .marqueurs.marquers import get_kits, load_kits, save_kits
 from django.contrib import messages
-
+from django.core.files.storage import FileSystemStorage
+from django.http import FileResponse
+from django.conf import settings
 
 import pandas as pd
 import json
+import os
 
 from Algo.echantillon import Echantillon
 from Algo.individus import Individus
@@ -14,7 +17,7 @@ from Algo.mere import Mere
 from Algo.pere import Pere
 from Algo.temoin import Temoin
 from Algo import traitement
-from django.core.files.storage import FileSystemStorage
+from Algo import pdf_feuille_resultat
 
 
 def afficher_importation(request):
@@ -135,16 +138,8 @@ def affichage_resultat(request):
     Page d'affichage du résulat de l'analyse de l'échantillon.
     """
     echantillon=request.session.get("echantillon")
-    version=request.session.get("version")
-    emetteur=request.session.get("emetteur")
-    entite=request.session.get("entite")
     N=echantillon.seuil_nbre_marqueurs
     H=echantillon.seuil_hauteur
-
-    if emetteur and entite is None:
-        emetteur="PBP-P2A-GEN"
-        entite="PBP-PTBM"
-
 
     try:
         sexe=echantillon.foetus.get_sexe()
@@ -153,14 +148,11 @@ def affichage_resultat(request):
         code_conclu = echantillon.get_contamine()
         nom_projet = echantillon.get_id()
         num_mere= echantillon.mere.ID
-        Emetteur= emetteur
-        Entite_appli = entite
         # nom_pdf=str(echantillon.get_id()) + "_" + str(self.onglets[echantillon.get_id()]) + "_" + nom_utilisateur"]
-        Version= str(version)
         is_tpos=len(echantillon.tpos.check())==0
         is_tneg=len(echantillon.tneg.check())>0
 
-        # print(f"Tpos : {echantillon.tpos.check()}\nTneg :{echantillon.tneg.check()}")
+        print(f"Tpos : {echantillon.tpos.check()}\nTneg :{echantillon.tneg.check()}")
 
         if echantillon.concordance_mere_foet is True:
             concordance_mere_foet="OUI"
@@ -190,6 +182,8 @@ def affichage_resultat(request):
         moyenne_conta=df_detail[2]
 
         is_conta=code_conclu >1
+
+        print(f"Temoin : {echantillon.tpos.kit.get_tpos_data()}")
 
     except Exception as e:
         print(f"Erreur : {e}")
@@ -221,3 +215,52 @@ def affichage_resultat(request):
         "H":round(H,2),
         "is_conta":is_conta,
         })
+
+def exportation_pdf(request):
+    """
+    Exportation des résultats en pdf
+    """
+    echantillon=request.session.get("echantillon")
+    code_conclu = echantillon.get_contamine()
+    is_tpos=len(echantillon.tpos.check())==0
+    is_tneg=len(echantillon.tneg.check())>0
+    nom_utilisateur="User_test"
+    emetteur=request.session.get("emetteur")
+    entite=request.session.get("entite")
+    version=request.session.get("version")
+    N=request.session.get("N")
+    H=request.session.get("H")
+    nom_pdf=str(echantillon.get_id()) + "_" + nom_utilisateur # Le .pdf est rajouté dans pdf_feuille_resultat
+    chemin_pdf=os.path.join(settings.MEDIA_ROOT, (nom_pdf + ".pdf"))
+
+    print(f"emetteur1 : {emetteur}\tentité : {entite}")
+
+    if emetteur or entite is None:
+        print("coucou")
+        emetteur="PBP-P2A-GEN"
+        entite="PBP-PTBM"
+        N="2"
+        H="1/3"
+
+    print(f"emetteur : {emetteur}\tentité : {entite}")
+    print(f"TPOS : {is_tpos}\t TNEG : {is_tneg} ")
+
+    try:
+        pdf_feuille_resultat.creation_PDF(settings.MEDIA_ROOT,
+                                          echantillon,
+                                          nom_pdf,
+                                          code_conclu,
+                                          nom_utilisateur,
+                                          H,
+                                          N,
+                                          None,
+                                          is_tpos,
+                                          is_tneg,
+                                          entite,
+                                          emetteur,
+                                          version)
+        return FileResponse(open(chemin_pdf, 'rb'), content_type='application/pdf')
+
+    except KeyError as e:
+        print(f"Échec lancement création pdf : {e}")
+        return redirect("affichage_resultat")

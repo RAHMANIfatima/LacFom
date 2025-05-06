@@ -10,7 +10,7 @@ def index(request):
     """
     user_name = request.user.username if request.user.is_authenticated else "Utilisateur"
     texte = f"Bienvenue {user_name}"
-    version= 6.0
+    version= "6.0"
 
     request.session["version"]=version
 
