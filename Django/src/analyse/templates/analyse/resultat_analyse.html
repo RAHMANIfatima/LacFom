@@ -62,9 +62,9 @@
                 {% endif %}
 
                 {% if is_tneg %}
-                <li>Témoin négatif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
-                {% else %}
                 <li>Témoin négatif : <img src="{% static 'images/check.png' %} " alt="check" width="15"> </li>
+                {% else %}
+                <li>Témoin négatif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
                 {% endif %}
 
                 <li>Concordance Mère/Foetus : {{concordance_mere_foet}}</li>

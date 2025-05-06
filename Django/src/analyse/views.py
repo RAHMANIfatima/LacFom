@@ -151,6 +151,20 @@ def affichage_resultat(request):
         # nom_pdf=str(echantillon.get_id()) + "_" + str(self.onglets[echantillon.get_id()]) + "_" + nom_utilisateur"]
         is_tpos=len(echantillon.tpos.check())==0
         is_tneg=len(echantillon.tneg.check())>0
+        
+        if len(echantillon.tpos.check()) > 0:
+            is_tpos = False
+            code_tpos=0
+        else:
+            is_tpos = True
+            code_tpos=1
+        if len(echantillon.tneg.check()) > 0:
+            is_tneg = False
+            code_tneg=0
+        else:
+            is_tneg = True
+            code_tneg=1
+            
 
         print(f"Tpos : {echantillon.tpos.check()}\nTneg :{echantillon.tneg.check()}")
 
@@ -193,6 +207,9 @@ def affichage_resultat(request):
     tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False) #TODO Faire en sorte que quand la conclusion est "non contaminé" la ligne soit verte et si la conclusion est "contaminé" la ligne est rouge
     #Besoin importer Jinja2 ?
 
+    request.session["code_tpos"]=code_tpos
+    request.session["code_tneg"]=code_tneg
+
     # print(df_detail)
     # print(f"code_conclu: {code_conclu}")
 
@@ -221,9 +238,9 @@ def exportation_pdf(request):
     Exportation des résultats en pdf
     """
     echantillon=request.session.get("echantillon")
+    code_tpos=request.session.get("code_tpos")
+    code_tneg=request.session.get("code_tneg")
     code_conclu = echantillon.get_contamine()
-    is_tpos=len(echantillon.tpos.check())==0
-    is_tneg=len(echantillon.tneg.check())>0
     nom_utilisateur="User_test"
     emetteur=request.session.get("emetteur")
     entite=request.session.get("entite")
@@ -243,7 +260,7 @@ def exportation_pdf(request):
         H="1/3"
 
     print(f"emetteur : {emetteur}\tentité : {entite}")
-    print(f"TPOS : {is_tpos}\t TNEG : {is_tneg} ")
+    print(f"TPOS : {code_tpos}\t TNEG : {code_tneg} ")
 
     try:
         pdf_feuille_resultat.creation_PDF(settings.MEDIA_ROOT,
@@ -254,8 +271,8 @@ def exportation_pdf(request):
                                           H,
                                           N,
                                           None,
-                                          is_tpos,
-                                          is_tneg,
+                                          code_tpos,
+                                          code_tneg,
                                           entite,
                                           emetteur,
                                           version)
