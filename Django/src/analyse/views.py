@@ -3,12 +3,13 @@ from django.shortcuts import render,redirect
 from .marqueurs.marquers import get_kits, load_kits, save_kits
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-from django.http import FileResponse
+from django.http import FileResponse,JsonResponse
 from django.conf import settings
 
 import pandas as pd
 import json
 import os
+import json
 
 from Algo.echantillon import Echantillon
 from Algo.individus import Individus
@@ -79,7 +80,7 @@ def attribution_origine(request):
     
     if "foetus" not in dictsamples or "mother" not in dictsamples:
         messages.error(request,"Veuillez sélectionner un foetus et un mère.")
-        return redirect("Traiter choix")
+        return redirect("Traiter_choix")
     
     print("Attribution origine")
     for origine, sample in dictsamples.items():
@@ -143,7 +144,7 @@ def affichage_resultat(request):
 
     try:
         sexe=echantillon.foetus.get_sexe()
-        df_conclusion=pd.DataFrame.from_dict(echantillon.get_resultats()) #DF avec Marqueur | Conclusion | Détails
+        dict_resultat=(pd.DataFrame.from_dict(echantillon.get_resultats())).to_dict(orient='records') #DF avec Marqueur | Conclusion | Détails
         df_detail=echantillon.get_conclusion()
         code_conclu = echantillon.get_contamine()
         nom_projet = echantillon.get_id()
@@ -204,7 +205,7 @@ def affichage_resultat(request):
         messages.error(request,"Chargement des données impossible")
         return redirect("traiter_choix")
 
-    tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False) #TODO Faire en sorte que quand la conclusion est "non contaminé" la ligne soit verte et si la conclusion est "contaminé" la ligne est rouge
+    # tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False) #TODO Faire en sorte que quand la conclusion est "non contaminé" la ligne soit verte et si la conclusion est "contaminé" la ligne est rouge
     #Besoin importer Jinja2 ?
 
     request.session["code_tpos"]=code_tpos
@@ -212,9 +213,10 @@ def affichage_resultat(request):
 
     # print(df_detail)
     # print(f"code_conclu: {code_conclu}")
+    print(f"dict_resultat : {dict_resultat}")
 
     return render (request,"analyse/resultat_analyse.html",{
-        "resultat":tableau_resultat,
+        "dict_resultat":dict_resultat,
         "nom_projet":nom_projet,
         "num_mere":num_mere,
         "num_pere":num_pere,
@@ -233,6 +235,23 @@ def affichage_resultat(request):
         "is_conta":is_conta,
         })
 
+
+
+def change_radio_selection(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        choix = data.get("contamination")
+        print(f"Choix reçu côté serveur : {choix}")
+        if choix == "non-contamine":
+            code_choix=0
+        else:
+            code_choix=1
+        request.session["contamination"] = code_choix
+        return JsonResponse({"status": "ok", "choix": choix})
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+
 def exportation_pdf(request):
     """
     Exportation des résultats en pdf
@@ -241,32 +260,56 @@ def exportation_pdf(request):
     code_tpos=request.session.get("code_tpos")
     code_tneg=request.session.get("code_tneg")
     code_conclu = echantillon.get_contamine()
+    choix=request.session.get("contamination")
     nom_utilisateur="User_test"
     emetteur=request.session.get("emetteur")
     entite=request.session.get("entite")
     version=request.session.get("version")
     N=request.session.get("N")
     H=request.session.get("H")
-    nom_pdf=str(echantillon.get_id()) + "_" + nom_utilisateur # Le .pdf est rajouté dans pdf_feuille_resultat
+    nom_pdf=str(echantillon.get_id()) + "_" + nom_utilisateur
     chemin_pdf=os.path.join(settings.MEDIA_ROOT, (nom_pdf + ".pdf"))
 
-    print(f"emetteur1 : {emetteur}\tentité : {entite}")
+    # print(f"emetteur1 : {emetteur}\tentité : {entite}")
 
     if emetteur or entite is None:
-        print("coucou")
         emetteur="PBP-P2A-GEN"
         entite="PBP-PTBM"
         N="2"
         H="1/3"
 
-    print(f"emetteur : {emetteur}\tentité : {entite}")
-    print(f"TPOS : {code_tpos}\t TNEG : {code_tneg} ")
+    print(f"choix : {choix}\tConclusion : {code_conclu}")
+    if choix is None :
+        choix=0
+    try:
+        if (choix == 0 and code_conclu == 0):
+            conclu = 0
+        elif (choix == 1 and code_conclu == 1):
+            conclu = 1
+        elif (choix == 0 and code_conclu == 1):
+            conclu = 2
+        elif (choix == 1 and code_conclu == 0):
+            conclu = 3
+        elif (choix == 0 and code_conclu == 2):
+            conclu = 4
+        elif (choix == 1 and code_conclu == 2):
+            conclu = 5
+        else:
+            conclu = 6
+    except Exception as e:
+        messages.error("Echec attribution variable conclu")
+        return
+
+    # print(f"emetteur : {emetteur}\tentité : {entite}")
+    # print(f"TPOS : {code_tpos}\t TNEG : {code_tneg} ")
+
+
 
     try:
         pdf_feuille_resultat.creation_PDF(settings.MEDIA_ROOT,
                                           echantillon,
                                           nom_pdf,
-                                          code_conclu,
+                                          conclu,
                                           nom_utilisateur,
                                           H,
                                           N,

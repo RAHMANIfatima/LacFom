@@ -33,8 +33,36 @@ body{
     text-align: center;
 }
 
-.table-responsive {
+.resultats table.table {
     margin: auto;
+    align-items: center;
+    border-collapse: collapse;
+    width: 80%;
+    border: 3px solid var(--primary-color);
+}
+
+.resultats thead th {
+    background-color: var(--primary-color); 
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.resultats tr:hover {
+    background-color: var(--bs-secondary);
+}
+
+/* Ligne entière verte si "Non contaminé" */
+.ligne-non-contamine {
+    background-color: var(--vert-deau) !important;
+    font-weight: bold;
+
+}
+
+/* Texte rouge pour les conclusions contaminées */
+.texte-contamine {
+    color: var(--rouge);
+    font-weight: bold;
 }
 
 .informations, .conclusion, .parametres{
@@ -84,4 +112,44 @@ body{
     width: 100%;
     /* max-width: 50%; */
 
+}
+
+.radio-toggle {
+    display: flex;
+    gap: 0;
+}
+
+.radio-toggle input[type="radio"] {
+    display: none;
+}
+
+.radio-toggle label {
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    background-color: #ccc;
+    border: 1px solid #aaa;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    border-radius: 0;
+}
+
+.radio-toggle label:first-of-type {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.radio-toggle label:last-of-type {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* État sélectionné */
+#non-contamine:checked + label {
+    background-color:var(--pomme); /* vert */
+    color: white;
+}
+
+#contamine:checked + label {
+    background-color: var(--rouge); /* rouge */
+    color: white;
 }

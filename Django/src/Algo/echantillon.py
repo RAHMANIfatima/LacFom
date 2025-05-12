@@ -260,25 +260,25 @@ class Echantillon:
                 if self.concordance_pere_foet:
                     resultat = {"Marqueur": marqueurs,
                                 "Conclusion": [self.foetus.data[marqueur]["conclusion"] for marqueur in marqueurs],
-                                "Détails M/F": [self.foetus.data[marqueur]["détails"] for marqueur in marqueurs]}
+                                "Détails_M_F": [self.foetus.data[marqueur]["détails"] for marqueur in marqueurs]}
                 else:
                     resultat = {"Marqueur": marqueurs,
                                 "Conclusion": [self.foetus.data[marqueur]["conclusion"] for marqueur in marqueurs],
-                                "Détails M/F": [self.foetus.data[marqueur]["détails"] for marqueur in marqueurs],
+                                "Détails_M_F": [self.foetus.data[marqueur]["détails"] for marqueur in marqueurs],
                                 "Concordance Pere/Foetus": [self.foetus.data[marqueur]["concordance"][1] for marqueur in
-                                                            marqueurs], "Détails P/F": self.get_notconcordant(1)}
+                                                            marqueurs], "Détails_P_F": self.get_notconcordant(1)}
             else:
                 resultat = {"Marqueur": marqueurs,
                             "Conclusion": [self.foetus.data[marqueur]["conclusion"] for marqueur in marqueurs],
-                            "Détails M/F": [self.foetus.data[marqueur]["détails"] for marqueur in marqueurs]}
+                            "Détails_M_F": [self.foetus.data[marqueur]["détails"] for marqueur in marqueurs]}
         else:
             if self.pere:
                 if self.concordance_pere_foet:
-                    resultat = {"Marqueur": marqueurs, "Concordance Mere/Foetus": [ self.foetus.data[marqueur]["concordance"][0] for marqueur in marqueurs ], "Détails M/F": self.get_notconcordant(0)}
+                    resultat = {"Marqueur": marqueurs, "Concordance Mere/Foetus": [ self.foetus.data[marqueur]["concordance"][0] for marqueur in marqueurs ], "Détails_M_F": self.get_notconcordant(0)}
                 else:
-                    resultat = {"Marqueur": marqueurs, "Concordance Mere/Foetus": [ self.foetus.data[marqueur]["concordance"][0] for marqueur in marqueurs ], "Détails M/F": self.get_notconcordant(0), "Concordance Pere/Foetus": [ self.foetus.data[marqueur]["concordance"][1] for marqueur in marqueurs ], "Détails P/F": self.get_notconcordant(1)}
+                    resultat = {"Marqueur": marqueurs, "Concordance Mere/Foetus": [ self.foetus.data[marqueur]["concordance"][0] for marqueur in marqueurs ], "Détails_M_F": self.get_notconcordant(0), "Concordance Pere/Foetus": [ self.foetus.data[marqueur]["concordance"][1] for marqueur in marqueurs ], "Détails_P_F": self.get_notconcordant(1)}
             else:
-                resultat = {"Marqueur": marqueurs, "Concordance Mere/Foetus": [ self.foetus.data[marqueur]["concordance"][0] for marqueur in marqueurs ], "Détails M/F": self.get_notconcordant(0)}
+                resultat = {"Marqueur": marqueurs, "Concordance Mere/Foetus": [ self.foetus.data[marqueur]["concordance"][0] for marqueur in marqueurs ], "Détails_M_F": self.get_notconcordant(0)}
         return resultat
 
     def get_id(self):
