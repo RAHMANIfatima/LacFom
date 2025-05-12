@@ -16,10 +16,10 @@
         <div class="btn-grp">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Fichier</button>
             <div class="dropdown-menu">
-                <form id="upload-new-file method="post" enctype="multipart/form-data">
+                <form id="upload-new-file" action="{% url 'importer_fichier' %}"method="post" enctype="multipart/form-data" target="_blank">
                     {% csrf_token %}
-                    <label for="json-file">Nouvelle analyse</label>
-                    <input type="file" name="fichier" accept=".txt" class="form-control">
+                    <label for="new-file">Nouvelle analyse</label>
+                    <input type="file" name="fichier" id="new-file"accept=".txt" class="form-control" onchange="this.form.submit()">
                 </form>
             </div>
             
@@ -40,7 +40,7 @@
     </header>
 
     <div class="informations">
-        <div class="identification">
+        <div class="identification"> 
             <ul>
                 <li>Echantillon : {{ nom_projet}}</li> 
                 <li>Num Foetus : {{ num_foetus }} </li>
@@ -62,9 +62,9 @@
                 {% endif %}
 
                 {% if is_tneg %}
-                <li>Témoin négatif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
-                {% else %}
                 <li>Témoin négatif : <img src="{% static 'images/check.png' %} " alt="check" width="15"> </li>
+                {% else %}
+                <li>Témoin négatif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
                 {% endif %}
 
                 <li>Concordance Mère/Foetus : {{concordance_mere_foet}}</li>
@@ -74,41 +74,48 @@
     </div>
     
     <div class="resultats">
-        <div class="table-responsive">
-            {{ resultat|safe }}
-        </div>
-    <div class="exportation">
-        <a href="{% url 'exportation_pdf' %}" target="_blank">
-            <button type="submit">Export PDF </button>
-        </a>
-    </div>
+        <table class="table tableau-analyse"> <!-- TODO Vérifier les fichiers pour voir s'il y en a pas avec des Détails P_F-->
+            <thead>
+                <tr>
+                  <th>Marqueur</th>
+                  <th>Conclusion</th>
+                  <th>Détails</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ligne in dict_resultat %}
+                <tr class="{% if ligne.Conclusion == 'Non contaminé' %}ligne-non-contamine{% endif %}">
+                    <td>{{ ligne.Marqueur }}</td>
+                    <td class="{% if ligne.Conclusion == 'Contaminé' %}texte-contamine{% endif %}">{{ ligne.Conclusion }}</td>
+                    <td>{{ ligne.Détails_M_F }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         
     </div>
-    <!-- TODO Changer style des boutons : Inactif = Outline ; Actif : std -->
+    
     <div class="conclusion">
         <div class="conclusion-finale">
             <p>Le prélèvement foetal est : </p>
             <form action="{% url 'attribution_origine' %}" method="post">
                 {% csrf_token %}
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <!-- Mets par défault le résultat conclue par l'algorithme -->
-                    {% if is_conta %}
-                        <label class="btn btn-danger btn-lg active">
-                            <input type="radio" name="contamination" value="contamine" autocomplete="off" checked> Contaminé
-                        </label>
-                        <label class="btn btn-success btn-lg active">
-                            <input type="radio" name="contamination" value="non-contamine" autocomplete="off"> Non contaminé
-                        </label>
-                    {% else %}
-                        <label class="btn btn-danger btn-lg active">
-                            <input type="radio" name="contamination" value="contamine" autocomplete="off"> Contaminé
-                        </label>
-                        <label class="btn btn-success btn-lg active">
-                            <input type="radio" name="contamination" value="non-contamine" autocomplete="off" checked> Non contaminé
-                        </label>
-                    {% endif %}
+                <div class="radio-toggle">
+                    <input type="radio" id="non-contamine" name="contamination" value="non-contamine"
+                    {% if not is_conta %}checked{% endif %} onchange="envoyerContamination('non-contamine')">
+                    <label for="non-contamine">Non contaminé</label>
+                    
+                    <input type="radio" id="contamine" name="contamination" value="contamine"
+                    {% if is_conta %}checked{% endif %} onchange="envoyerContamination('contamine')">
+                    <label for="contamine">Contaminé</label>
                 </div>
             </form>
+        </div>
+        
+        <div class="exportation">
+            <a href="{% url 'exportation_pdf' %}" target="_blank">
+                <button type="submit">Export PDF </button>
+            </a>
         </div>
         
         <div class="details-conta">
@@ -141,4 +148,23 @@
     </div>
 
 </body>
+
+<script>
+    function envoyerContamination(valeur) {
+        fetch("{% url 'change_radio_selection' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({ contamination: valeur })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Réponse du serveur :", data);
+        })
+        .catch(error => console.error("Erreur :", error));
+    }
+    </script>
+    
 </html>

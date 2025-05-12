@@ -320,12 +320,12 @@ def resultats(data,dataframe,Concordance_mf, Concordance_pf):
                      data[marqueurs][2] = style_resultat_tableau(dataframe["Conclusion"][marqueurs-2])
                      data[marqueurs][3] = " / "
                      ligne_informative.append(marqueurs)
-                if dataframe["Détails M/F"][marqueurs-2] not in ['Echo','Mère homozygote','Mêmes allèles que la mère']:
-                    data[marqueurs][3] = style_resultat_tableau(dataframe["Détails M/F"][marqueurs-2])
+                if dataframe["Détails_M_F"][marqueurs-2] not in ['Echo','Mère homozygote','Mêmes allèles que la mère']:
+                    data[marqueurs][3] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
                     data[marqueurs][4] = " / "
                 else:
                     data[marqueurs][3] = " / "
-                    data[marqueurs][4] = style_resultat_tableau(dataframe["Détails M/F"][marqueurs-2])
+                    data[marqueurs][4] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
                 if data[marqueurs][3] == "":
                     data[marqueurs][3] =" / "
         else:
@@ -339,23 +339,23 @@ def resultats(data,dataframe,Concordance_mf, Concordance_pf):
                      data[marqueurs][1] = style_resultat_tableau("Informatif")
                      data[marqueurs][2] = style_resultat_tableau(dataframe["Conclusion"][marqueurs-2])
                      data[marqueurs][3] = " / "
-                if dataframe["Détails M/F"][marqueurs-2] not in ['Echo','Mère homozygote','Mêmes allèles que la mère']:
-                    data[marqueurs][3] = style_resultat_tableau(dataframe["Détails M/F"][marqueurs-2])
+                if dataframe["Détails_M_F"][marqueurs-2] not in ['Echo','Mère homozygote','Mêmes allèles que la mère']:
+                    data[marqueurs][3] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
                     data[marqueurs][4] = " / "
-                    #  if dataframe["Détails M/F"][marqueurs-2] != "":
-                    #      data[marqueurs][4] = style_resultat_tableau(dataframe["Détails M/F"][marqueurs-2])
+                    #  if dataframe["Détails_M_F"][marqueurs-2] != "":
+                    #      data[marqueurs][4] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
                     #  else:
                     #      data[marqueurs][3] = " / "
                     #  data[marqueurs][3] = " / "
                 else:
                      data[marqueurs][3] = " / "
-                     data[marqueurs][4] = style_resultat_tableau(dataframe["Détails M/F"][marqueurs-2])
+                     data[marqueurs][4] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
                 if data[marqueurs][3] == "":
                      data[marqueurs][3] =" / "
 
                 data[marqueurs][5] = style_resultat_tableau(dataframe["Concordance Pere/Foetus"][marqueurs-2])
                 if dataframe["Concordance Pere/Foetus"][marqueurs-2]=="NON":
-                    data[marqueurs][6] = profil_allelique(dataframe["Détails P/F"][marqueurs-2],"pere")
+                    data[marqueurs][6] = profil_allelique(dataframe["Détails_P_F"][marqueurs-2],"pere")
                 else:
                     data[marqueurs][6] = " / "
     else:
@@ -363,7 +363,7 @@ def resultats(data,dataframe,Concordance_mf, Concordance_pf):
             for marqueurs in range(1,len(data)):
                 data[marqueurs][1] = style_resultat_tableau(dataframe["Concordance Mere/Foetus"][marqueurs-1])
                 if dataframe["Concordance Mere/Foetus"][marqueurs-1]=="NON":
-                    data[marqueurs][2] = profil_allelique(dataframe["Détails M/F"][marqueurs-1],"mere")
+                    data[marqueurs][2] = profil_allelique(dataframe["Détails_M_F"][marqueurs-1],"mere")
                     ligne_informative.append(marqueurs)
                 else:
                     data[marqueurs][2] = " / "
@@ -371,14 +371,14 @@ def resultats(data,dataframe,Concordance_mf, Concordance_pf):
             for marqueurs in range(1,len(data)):
                 data[marqueurs][1] = style_resultat_tableau(dataframe["Concordance Mere/Foetus"][marqueurs-1])
                 if dataframe["Concordance Mere/Foetus"][marqueurs-1]=="NON":
-                    data[marqueurs][2] = profil_allelique(dataframe["Détails M/F"][marqueurs-1],"mere")
+                    data[marqueurs][2] = profil_allelique(dataframe["Détails_M_F"][marqueurs-1],"mere")
                     ligne_informative.append(marqueurs)
                 else:
                     data[marqueurs][2] = " / "
                     
                 data[marqueurs][3] = style_resultat_tableau(dataframe["Concordance Pere/Foetus"][marqueurs-1])
                 if dataframe["Concordance Pere/Foetus"][marqueurs-1]=="NON":
-                    data[marqueurs][4] = profil_allelique(dataframe["Détails P/F"][marqueurs-1],"pere")
+                    data[marqueurs][4] = profil_allelique(dataframe["Détails_P_F"][marqueurs-1],"pere")
                     ligne_informative.append(marqueurs)
                 else:
                     data[marqueurs][4] = " / "
