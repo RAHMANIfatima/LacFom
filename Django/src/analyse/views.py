@@ -144,7 +144,7 @@ def affichage_resultat(request):
 
     try:
         sexe=echantillon.foetus.get_sexe()
-        dict_resultat=(pd.DataFrame.from_dict(echantillon.get_resultats())).to_dict(orient='records') #DF avec Marqueur | Conclusion | Détails
+        dict_resultat=echantillon.get_resultats() #DF avec Marqueur | Conclusion | Détails
         df_detail=echantillon.get_conclusion()
         code_conclu = echantillon.get_contamine()
         nom_projet = echantillon.get_id()
@@ -214,9 +214,16 @@ def affichage_resultat(request):
     # print(df_detail)
     # print(f"code_conclu: {code_conclu}")
     print(f"dict_resultat : {dict_resultat}")
+    
+    ########################## PREPARATION DU TABLEAU ##########################
+    ndict_resultat=[
+        {'Marqueur': m, 'Conclusion': c, 'Détails_M_F': d}
+        for m, c, d in zip(dict_resultat['Marqueur'], dict_resultat['Conclusion'], dict_resultat['Détails_M_F'])
+    ]
+
 
     return render (request,"analyse/resultat_analyse.html",{
-        "dict_resultat":dict_resultat,
+        "dict_resultat":ndict_resultat,
         "nom_projet":nom_projet,
         "num_mere":num_mere,
         "num_pere":num_pere,
