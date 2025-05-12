@@ -4,5 +4,7 @@ __pycache__/
 .venv
 env
 env/*
-media/*
 log_*
+Django/src/db.sqlite3
+
+Django/src/media/*
