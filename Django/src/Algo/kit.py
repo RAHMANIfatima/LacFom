@@ -14,7 +14,7 @@ class Kit:
         print('---------------------kit dans temoins--------------------------------')
         print(kit)
         print('-----------------------------------------------------------')
-        if kit is None:
+        if not kit:
             self.json_path = Path(__file__).resolve().parent / "kit_marqueurs.json"
             kit = self.load_data()
 
