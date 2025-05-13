@@ -32,6 +32,8 @@ body{
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 1.5rem;
+    background-color: var(--argile);
+
 }
 
 table tr {

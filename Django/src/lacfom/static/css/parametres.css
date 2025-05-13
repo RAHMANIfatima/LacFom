@@ -28,6 +28,8 @@ body {
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: clamp(1rem, 1.5vw, 1.5rem);
+    background-color: var(--argile);
+
 }
 
 #nombre-marqueurs,#emetteur {
