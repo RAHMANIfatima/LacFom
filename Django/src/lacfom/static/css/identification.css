@@ -10,8 +10,8 @@ header{
 
 .header-flex{
     display: flex;
-    justify-content: space-between;
-    gap: 5%;
+    justify-content: left;
+    gap: 2%;
 }
 
 .header h1{
@@ -20,6 +20,11 @@ header{
     margin-top: 0.2rem;
     font-family: "Special Gothic Condensed One", sans-serif;
     font-size: 1.5rem;
+}
+
+.btn-grp{
+    display: flex;
+    gap:0.5rem;
 }
 
 h3{
@@ -46,8 +51,4 @@ table tr {
 
 th, td {
     background-color: #FFFAFA !important;
-}
-
-.btn-group{
-    margin-left: auto;
 }

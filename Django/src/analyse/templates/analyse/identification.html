@@ -14,20 +14,24 @@
     <header class="header-flex">
         <h1>Identification des individus</h1>
         <div class="btn-grp">
+
             <form action="{% url 'index' %}">
                 <button class="btn btn-secondary">Accueil</button>
             </form>
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
-            <div class="dropdown-menu">
-                <form id="upload-json-form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <label for="json-file" class="dropdown-item">Changer de kit</label>
-                    <input type="file" id="json-file" name="json_file" accept=".json" class="form-control">
-                </form>
-        
-                <form action="{% url 'afficher_importation' %}">
-                    <button class="dropdown-item">Visualiser les résultats</button>
-                </form>
+
+            <div class="dropdown">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
+                <div class="dropdown-menu">
+                    <form id="upload-json-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="json-file" class="dropdown-item">Changer de kit</label>
+                        <input type="file" id="json-file" name="json_file" accept=".json" class="form-control">
+                    </form>
+            
+                    <form action="{% url 'afficher_importation' %}">
+                        <button class="dropdown-item">Visualiser les résultats</button>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
