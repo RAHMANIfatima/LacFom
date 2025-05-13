@@ -1,21 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Special+Gothic+Condensed+One&display=swap');
 
-
+/********************* Stylisation du tableau du header *********************/
 header{
-    background-color: var(--bleuet);
+    background-color: var(--primary-color);
     width: 100%;
     color: whitesmoke;
     padding: 0.4rem;
 }
+.header-flex{
+    display: flex;
+    justify-content: space-between;
+    gap: 5%;
+}
 
-h1{
+.header h1{
     font-size: 20px;
     margin-left: 0.7rem;
     margin-top: 0.2rem;
-    color: var(--primary-color);
+    /* color: var(--primary-color); */
     font-family: "Special Gothic Condensed One", sans-serif;
     font-size: 1.5rem;
 }
+
+.btn-grp{
+    display: flex;
+    gap:1rem;
+}
+
 
 body{
     height: 100rem;
@@ -25,6 +36,7 @@ body{
     font-size: 1.5rem;
 }
 
+/********************* Stylisation du tableau de resultat de l'analyse *********************/
 .resultats {
     margin:auto;
     padding: 1rem;
@@ -39,7 +51,7 @@ body{
     border-collapse: collapse;
     width: 80%;
     border: 3px solid var(--primary-color);
-}
+} 
 
 .resultats thead th {
     background-color: var(--primary-color); 
@@ -48,7 +60,7 @@ body{
     text-align: center;
 }
 
-.resultats tr:hover {
+.resultats td:hover {
     background-color: var(--bs-secondary);
 }
 
@@ -80,7 +92,6 @@ body{
     columns: 2;
     column-gap: 2rem;
 }
-
 
 .infos {
     border-width: 5px;
@@ -114,6 +125,7 @@ body{
 
 }
 
+/******************** Stylisation des boutons contaminé - non contaminé ********************/
 .radio-toggle {
     display: flex;
     gap: 0;
@@ -152,4 +164,27 @@ body{
 #contamine:checked + label {
     background-color: var(--rouge); /* rouge */
     color: white;
+}
+
+/******************** Stylisation du bouton d'exportation ********************/
+
+.exportation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.exportation button {
+    background-color: var(--primary-color);
+    color: white;
+    width: 80%;
+
+}
+
+.exportation button:hover {
+    background-color: var(--primary-softer-color);
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
 }
