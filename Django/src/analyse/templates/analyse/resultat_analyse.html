@@ -11,11 +11,12 @@
     <title>{{ nom_projet }}</title>
 </head>
 <body>
-    <header>
+    <header class="header-flex">
         <h1>Page des résultats</h1>
         <div class="btn-grp">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Fichier</button>
             <div class="dropdown-menu">
+                <!-- La nouvelle analyse se lance sans bouton de validation et dans un nouvel onglet-->
                 <form id="upload-new-file" action="{% url 'importer_fichier' %}"method="post" enctype="multipart/form-data" target="_blank">
                     {% csrf_token %}
                     <label for="new-file">Nouvelle analyse</label>
@@ -74,7 +75,7 @@
     </div>
     
     <div class="resultats">
-        <table class="table tableau-analyse"> <!-- TODO Vérifier les fichiers pour voir s'il y en a pas avec des Détails P_F-->
+        <table class="table"> <!-- TODO Vérifier les fichiers pour voir s'il y en a pas avec des Détails P_F-->
             <thead>
                 <tr>
                   <th>Marqueur</th>

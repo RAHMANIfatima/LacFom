@@ -1,18 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Special+Gothic+Condensed+One&display=swap');
 
-
+/********************* Stylisation du tableau du header *********************/
 header{
-    background-color: var(--bleuet);
+    background-color: var(--primary-color);
     width: 100%;
     color: whitesmoke;
     padding: 0.4rem;
 }
 
-h1{
+.header-flex{
+    display: flex;
+    justify-content: space-between;
+    gap: 5%;
+}
+
+.header h1{
     font-size: 20px;
     margin-left: 0.7rem;
     margin-top: 0.2rem;
-    color: var(--primary-color);
     font-family: "Special Gothic Condensed One", sans-serif;
     font-size: 1.5rem;
 }
@@ -27,6 +32,8 @@ body{
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 1.5rem;
+    background-color: var(--argile);
+
 }
 
 table tr {
