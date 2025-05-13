@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--argile);
+    background-color: #FFFAFA;
 
 }
 
@@ -68,10 +68,7 @@ body {
 
 footer {
     margin-top: auto;
-    /* position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0; */
     padding: clamp(0.4rem, 1vh, 0.6rem);
-    background-color: var(--bleuet);
+    background-color: var(--primary-color);
+    color: whitesmoke;
 }

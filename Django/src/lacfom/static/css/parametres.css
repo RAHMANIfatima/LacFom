@@ -1,34 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Special+Gothic+Condensed+One&display=swap');
 
+/* TODO modifier l'écartement des paramètres */
+
 header {
-    background-color: var(--bleuet);
+    background-color: var(--primary-color);
     width: 100%;
-    color: whitesmoke;
     padding: 0.4rem;
 }
+
+header h3 {
+    margin-left: clamp(0.3rem, 1vw, 1rem);
+    margin-top: clamp(0.1rem, 0.5vh, 0.5rem);
+    color: whitesmoke;
+    font-family: "Special Gothic Condensed One", sans-serif;
+    font-size: clamp(1rem, 1.2vw, 1.5rem);
+}
+
 
 h2 {
     text-align: center;
     text-transform: uppercase;
-    color: var(--primary-color);
     font-family: "Special Gothic Condensed One", sans-serif;
     font-size: clamp(1.5rem, 2vw, 2.5rem);
+    
+    
 }
 
-h3 {
-    margin-left: clamp(0.3rem, 1vw, 1rem);
-    margin-top: clamp(0.1rem, 0.5vh, 0.5rem);
-    color: var(--primary-color);
-    font-family: "Special Gothic Condensed One", sans-serif;
-    font-size: clamp(1rem, 1.2vw, 1.5rem);
-}
 
 body {
     margin: auto;
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: clamp(1rem, 1.5vw, 1.5rem);
-    background-color: var(--argile);
+    background-color: #FFFAFA;
 
 }
 
