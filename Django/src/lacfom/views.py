@@ -84,26 +84,41 @@ def changer_parametres(request):
     }
 
     if request.method == "POST":
+        next_url = request.POST.get("next")
         if "reset" in request.POST:
             # Si on clique sur le bouton Réinitialiser = valeurs par défaut
             request.session["parametres"] = valeurs_defaut
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect("index")
             
+        elif "previous" in request.POST:
+            # Si on clique sur retour revient tout simplement en arrière
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect("index")
         else:
-            # Sinon, on enregistre les nouvelles valeurs
+            # Sinon, on enregistre les nouvelles valeurs et rediriges vers la page précédente (menu d'accueil ou page résultat)
             request.session["parametres"] = {
                 "nmarqueurs": request.POST.get("nmarqueurs", "2"),
                 "hpics": request.POST.get("hpics", "1/3"),
                 "emet": request.POST.get("emet", "PBP-P2A-GEN"),
                 "enti": request.POST.get("enti", "PBP-PTBM")
             }
-
-        return redirect("changer_parametres")  # On recharge la page pour afficher les valeurs mises à jour
+            # TODO rajouter un mot pour dire que c'est bon
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect("index")
+        
 
     # Récupération des paramètres depuis la session ou valeurs par défaut
     parametres = request.session.get("parametres", valeurs_defaut)
 
-    for valeur in parametres.keys():
-        print(f"{valeur} : {parametres[valeur]}")
+    # for valeur in parametres.keys():
+    #     print(f"{valeur} : {parametres[valeur]}")
 
     print("#############")
     print(f'N={parametres["nmarqueurs"]} et H={parametres["hpics"]}')
