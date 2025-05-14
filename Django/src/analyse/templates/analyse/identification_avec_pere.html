@@ -15,10 +15,14 @@
 <body>
     <header class="header-flex">
         <h1>Identification des individus</h1>
-        <div class="btn-grp">
-            <form action="{% url 'index' %}">
-                <button class="btn btn-secondary">Accueil</button>
-            </form>
+    </header>
+
+    <!-- Boutons déplacés en haut à gauche après le header -->
+    <div class="btn-grp mt-3 ms-3">
+        <form action="{% url 'index' %}" class="d-inline">
+            <button class="btn btn-secondary">Accueil</button>
+        </form>
+        <div class="dropdown d-inline">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
             <div class="dropdown-menu">
                 <form id="upload-json-form" method="post" enctype="multipart/form-data">
@@ -32,7 +36,7 @@
                 </form>
             </div>
         </div>
-    </header>
+    </div>
     
     <div class="container">
         <h3 class="mt-4">Veuillez sélectionner les individus :</h3>

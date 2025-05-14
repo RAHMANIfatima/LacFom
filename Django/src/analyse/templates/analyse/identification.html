@@ -1,3 +1,4 @@
+<!-- filepath: /home/aliou/projects/LacFom/Django/src/analyse/templates/analyse/identification.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,32 +16,30 @@
 <body>
     <header class="header-flex">
         <h1>Identification des individus</h1>
-        <div class="btn-grp">
-
-            <form action="{% url 'index' %}">
-                <button class="btn btn-secondary">Accueil</button>
-            </form>
-
-            <div class="dropdown">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
-                <div class="dropdown-menu">
-                    <form id="upload-json-form" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <label for="json-file" class="dropdown-item">Changer de kit</label>
-                        <input type="file" id="json-file" name="json_file" accept=".json" class="form-control">
-                    </form>
-            
-                    <form action="{% url 'afficher_importation' %}">
-                        <button class="dropdown-item">Visualiser les résultats</button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </header>
     
+    <div class="btn-grp mt-3 ms-3">
+        <form action="{% url 'index' %}" class="d-inline">
+            <button class="btn btn-secondary">Accueil</button>
+        </form>
+        <div class="dropdown d-inline">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
+            <div class="dropdown-menu">
+                <form id="upload-json-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="json-file" class="dropdown-item">Changer de kit</label>
+                    <input type="file" id="json-file" name="json_file" accept=".json" class="form-control">
+                </form>
+        
+                <form action="{% url 'afficher_importation' %}">
+                    <button class="dropdown-item">Visualiser les résultats</button>
+                </form>
+            </div>
+        </div>
+    </div>
     
     <div class="container">
-        <h3 class="mt-4">Veuillez sélectionner les individus :  </h3>
+        <h3 class="mt-4">Veuillez sélectionner les individus :</h3>
         <form action="{% url 'attribution_origine' %}" method="post">
             {% csrf_token %}
             <table class="table table-borderless m-5">
