@@ -1,13 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Condensed+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap');
 
 body {
     width: 100%;
     margin: 0;
     padding: 0;
     text-align: center;
-    font-family: "Pathway Gothic One", sans-serif;
-    font-weight: 400;
+    font-family: "Zen Kaku Gothic Antique", sans-serif;
     font-size: clamp(1rem, 1.5vw, 1.5rem);
     display: flex;
     flex-direction: column;
@@ -16,12 +15,9 @@ body {
 
 }
 
-
-
 .Bienvenue {
     padding-top: clamp(1rem, 4vh, 3rem);
     /* position: relative; */
-    font-family: "Special Gothic Condensed One", sans-serif;
     color: var(--primary-color);
 }
 
@@ -38,7 +34,7 @@ body {
 
 .Message-bienvenue {
     margin-top: clamp(1rem, 4vh, 3rem);
-    font-family: "Special Gothic Condensed One", sans-serif;
+    font-family: "Pathway Gothic One", sans-serif;
     font-size: clamp(1.2rem, 2vw, 2rem);
 }
 

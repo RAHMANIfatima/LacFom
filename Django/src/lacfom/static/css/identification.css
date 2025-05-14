@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Special+Gothic+Condensed+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap');
 
 /********************* Stylisation du tableau du header *********************/
 header{
@@ -6,19 +7,17 @@ header{
     width: 100%;
     color: whitesmoke;
     padding: 0.4rem;
+    font-family: "Pathway Gothic One", sans-serif;
 }
 
 .header-flex{
     display: flex;
-    justify-content: left;
-    gap: 2%;
 }
 
 .header h1{
     font-size: 20px;
     margin-left: 0.7rem;
     margin-top: 0.2rem;
-    font-family: "Special Gothic Condensed One", sans-serif;
     font-size: 1.5rem;
 }
 
@@ -35,14 +34,15 @@ body{
     height: 100%;
     margin: auto;
     padding: auto;
-    font-family: "Pathway Gothic One", sans-serif;
-    font-size: 1.5rem;
+    font-family: "Zen Kaku Gothic Antique", sans-serif;
+    font-size: 1.3rem;
     background-color: #FFFAFA;
 
 }
 
 table {
     background-color: #FFFAFA;
+    font-family: "Zen Kaku Gothic Antique", sans-serif;
 }
 
 table tr {
