@@ -10,8 +10,8 @@ header{
 
 .header-flex{
     display: flex;
-    justify-content: space-between;
-    gap: 5%;
+    justify-content: left;
+    gap: 2%;
 }
 
 .header h1{
@@ -20,6 +20,11 @@ header{
     margin-top: 0.2rem;
     font-family: "Special Gothic Condensed One", sans-serif;
     font-size: 1.5rem;
+}
+
+.btn-grp{
+    display: flex;
+    gap:0.5rem;
 }
 
 h3{
@@ -32,14 +37,18 @@ body{
     padding: auto;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 1.5rem;
-    background-color: var(--argile);
+    background-color: #FFFAFA;
 
+}
+
+table {
+    background-color: #FFFAFA;
 }
 
 table tr {
     height: 7rem; 
 }
 
-.btn-group{
-    margin-left: auto;
+th, td {
+    background-color: #FFFAFA !important;
 }
