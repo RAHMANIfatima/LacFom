@@ -5,7 +5,8 @@
 header {
     background-color: var(--primary-color);
     width: 100%;
-    padding: 0.4rem;
+    padding: 0.7rem;
+    top: 0;
 }
 
 header h3 {
@@ -14,6 +15,13 @@ header h3 {
     color: whitesmoke;
     font-family: "Special Gothic Condensed One", sans-serif;
     font-size: clamp(1rem, 1.2vw, 1.5rem);
+}
+
+.section-header {
+    background-color: var(--bleuet);
+    font-weight: bold;
+    font-size: clamp(1.2rem, 1.5vw, 1.8rem);
+    margin-bottom: 1rem;
 }
 
 

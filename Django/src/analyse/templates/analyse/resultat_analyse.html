@@ -1,3 +1,4 @@
+<!-- filepath: /home/aliou/projects/LacFom/Django/src/analyse/templates/analyse/resultat_analyse.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,17 +16,23 @@
 <body>
     <header class="header-flex">
         <h1>Page des résultats</h1>
-        <div class="btn-grp">
+    </header>
+
+    <!-- Boutons déplacés en bas du header, en haut à gauche -->
+    <div class="btn-grp mt-3 ms-3">
+        <div class="dropdown d-inline">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Fichier</button>
             <div class="dropdown-menu">
                 <!-- La nouvelle analyse se lance sans bouton de validation et dans un nouvel onglet-->
-                <form id="upload-new-file" action="{% url 'importer_fichier' %}"method="post" enctype="multipart/form-data" target="_blank">
+                <form id="upload-new-file" action="{% url 'importer_fichier' %}" method="post" enctype="multipart/form-data" target="_blank">
                     {% csrf_token %}
-                    <label for="new-file">Nouvelle analyse</label>
-                    <input type="file" name="fichier" id="new-file"accept=".txt" class="form-control" onchange="this.form.submit()">
+                    <label for="new-file" class="dropdown-item">Nouvelle analyse</label>
+                    <input type="file" name="fichier" id="new-file" accept=".txt" class="form-control" onchange="this.form.submit()">
                 </form>
             </div>
-            
+        </div>
+        
+        <div class="dropdown d-inline">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
             <div class="dropdown-menu">
                 <form action="{% url 'afficher_importation' %}">
@@ -35,49 +42,44 @@
                     <button class="dropdown-item">Paramètres</button>
                 </form>
             </div>
-
         </div>
-
-        
-        </div>
-    </header>
+    </div>
 
     <div class="informations">
         <div class="identification"> 
             <ul>
-                <li>Echantillon : {{ nom_projet}}</li> 
+                <li>Echantillon : {{ nom_projet }}</li> 
                 <li>Num Foetus : {{ num_foetus }} </li>
-                 <li>Num Mère : {{ num_mere }}</li>
-                 <li>Num Père : {{ num_pere }}</li>
+                <li>Num Mère : {{ num_mere }}</li>
+                <li>Num Père : {{ num_pere }}</li>
             </ul>
-
         </div>
         <div class="infos-foetus">
-            <li>Sexe foetus : {{sexe}}</li>
+            <li>Sexe foetus : {{ sexe }}</li>
         </div>
 
         <div class="infos">
             <ul>
                 {% if is_tpos %}
-                <li>Témoin positif : <img src="{% static 'images/check.png' %} " alt="check" width="15"> </li>
+                <li>Témoin positif : <img src="{% static 'images/check.png' %}" alt="check" width="15"> </li>
                 {% else %}
-                <li>Témoin positif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
+                <li>Témoin positif : <img src="{% static 'images/cross.png' %}" alt="croix" width="15"> </li>
                 {% endif %}
 
                 {% if is_tneg %}
-                <li>Témoin négatif : <img src="{% static 'images/check.png' %} " alt="check" width="15"> </li>
+                <li>Témoin négatif : <img src="{% static 'images/check.png' %}" alt="check" width="15"> </li>
                 {% else %}
-                <li>Témoin négatif : <img src="{% static 'images/cross.png' %} " alt="croix" width="15"> </li>
+                <li>Témoin négatif : <img src="{% static 'images/cross.png' %}" alt="croix" width="15"> </li>
                 {% endif %}
 
-                <li>Concordance Mère/Foetus : {{concordance_mere_foet}}</li>
-                <li>Concordance Père/Foetus : {{concordance_pere_foet}}</li>
+                <li>Concordance Mère/Foetus : {{ concordance_mere_foet }}</li>
+                <li>Concordance Père/Foetus : {{ concordance_pere_foet }}</li>
             </ul>
         </div>
     </div>
     
     <div class="resultats">
-        <table class="table"> <!-- TODO Vérifier les fichiers pour voir s'il y en a pas avec des Détails P_F-->
+        <table class="table">
             <thead>
                 <tr>
                   <th>Marqueur</th>
@@ -95,7 +97,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        
     </div>
     
     <div class="conclusion">
@@ -125,29 +126,27 @@
             <table class="table table-responsive table-striped">
                 <tr>
                     <td>Nombre de marqueurs informatifs non contaminés : </td>
-                    <td style="color: var(--pomme);">{{nb_marqueurs_informatifs_non_contaminés}}</td>
+                    <td style="color: var(--pomme);">{{ nb_marqueurs_informatifs_non_contaminés }}</td>
                 </tr>
                 <tr>
                     <td>Nombre de marqueurs informatifs contaminés : </td>
-                    <td style="color: var(--rouge);">{{nb_marqueurs_informatifs_contaminés}}</td>
+                    <td style="color: var(--rouge);">{{ nb_marqueurs_informatifs_contaminés }}</td>
                 </tr>
                 <tr>
                     <td>Moyenne % contamination : </td>
                     {% if is_conta %}
-                    <td style="color: var(--rouge);">{{moyenne_conta}}</td>
+                    <td style="color: var(--rouge);">{{ moyenne_conta }}</td>
                     {% else %}
-                    <td style="color: var(--pomme);">{{moyenne_conta}}</td>
+                    <td style="color: var(--pomme);">{{ moyenne_conta }}</td>
                     {% endif %}
-                    
                 </tr>
             </table>
-
         </div>
     </div>
 
     <div class="parametres">
-        <p>Nombre minimum de marqueurs informatifs contaminés : {{N}}</p>
-        <p>Hauteur de pics discriminant un allèle contaminé d'un allèle normal : {{H}}</p>
+        <p>Nombre minimum de marqueurs informatifs contaminés : {{ N }}</p>
+        <p>Hauteur de pics discriminant un allèle contaminé d'un allèle normal : {{ H }}</p>
     </div>
 
 </body>
@@ -168,6 +167,6 @@
         })
         .catch(error => console.error("Erreur :", error));
     }
-    </script>
+</script>
     
 </html>
