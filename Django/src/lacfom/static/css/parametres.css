@@ -16,6 +16,13 @@ header h3 {
     font-size: clamp(1rem, 1.2vw, 1.5rem);
 }
 
+.section-header {
+    background-color: var(--bleuet);
+    font-weight: bold;
+    font-size: clamp(1.2rem, 1.5vw, 1.8rem);
+    margin-bottom: 1rem;
+}
+
 
 h2 {
     text-align: center;
