@@ -3,12 +3,26 @@
 
 /* TODO modifier l'écartement des paramètres */
 
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem;
+}
+
 header {
     background-color: var(--primary-color);
     width: 100%;
     padding: 0.7rem;
     top: 0;
     font-family: "Pathway Gothic One", sans-serif;
+}
+
+img {
+    background-color: #FFFAFA;
+    border : solid 2px black;
+    border-radius: 100%;
+    margin-right: 1%;
 }
 
 header h3 {

@@ -10,10 +10,11 @@ header{
     padding: 0.4rem;
 }
 
-.header-flex{
+.header-flex {
     display: flex;
-    justify-content: left;
-    gap: 2%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem;
 }
 
 .header h1{
@@ -21,6 +22,13 @@ header{
     margin-left: 0.7rem;
     margin-top: 0.2rem;
     font-size: 1.5rem;
+}
+
+.header-flex img {
+    background-color: #FFFAFA;
+    border : solid 2px black;
+    border-radius: 100%;
+    margin-right: 1%;
 }
 
 .btn-grp{
