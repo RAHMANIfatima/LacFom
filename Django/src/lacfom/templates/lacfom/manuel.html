@@ -34,7 +34,7 @@
             text-align: center;
         }
         h1 {
-            font-size: 2.5em;
+            font-size: 1.5em;
             color: white;
         }
         h2 {
@@ -54,7 +54,7 @@
             margin-bottom: 10px;
         }
         .table-of-contents a {
-            color: #003366;
+            color:  #005782;
             text-decoration: none;
             padding: 10px;
             display: block;
@@ -74,7 +74,7 @@
             text-align: center;
             font-size: 0.9em;
             padding: 15px;
-            background-color: #003366;
+            background-color: #005782;
             color: white;
             position: relative;
             bottom: 0;
@@ -86,25 +86,24 @@
 
     <header>
         <div class="logo-container">
-            <img src="logo_chu.png" alt="Logo Université de Bordeaux" class="logo">
-        </div>
+            <img src="{% static 'images/logo.png'%}" alt="Logo LacFom" class="logo" height="75"/>
+            <img src="{% static 'images/logo_chu.png'%}"alt="Logo Université de Bordeaux" class="logo">
+         </div>
         <h1>Manuel d'utilisation de l'interface Web Lacfom</h1>
-        <p>Université de Bordeaux - Projet de Master 1 de Bio-informatique</p>
     </header>
 
     <div class="container">
         <h2>Table des matières</h2>
         <ul class="table-of-contents">
-            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#introduction">Présentation du logiciel</a></li>
             <li><a href="#accueil">Page d'Accueil</a></li>
             <li><a href="#identification">Identification des Individus</a></li>
             <li><a href="#parametres">Modification des Paramètres</a></li>
             <li><a href="#resultats">Page des Résultats</a></li>
-            <li><a href="#conclusion">Conclusion</a></li>
         </ul>
 
         <div class="content-section" id="introduction">
-            <h2>Introduction</h2>
+            <h2>Présentation du logiciel</h2>
             <p style="text-align: justify;">
                 Bienvenue dans le manuel d'utilisation de l'interface Web Lacfom, votre assistant numérique conçu pour simplifier et accélérer vos analyses. Ce guide complet vous fournira toutes les informations  pour naviguer efficacement à travers les différentes fonctionnalités de l'application. Notre objectif est de rendre le processus de détection de contamination aussi intuitif et fluide que possible, en vous offrant un outil puissant et facile à maîtriser.
 
@@ -191,11 +190,6 @@
             <p>Consultez attentivement le tableau des résultats pour interpréter les conclusions de l'analyse.</p>
         </div>
         
-
-        <div class="content-section" id="conclusion">
-            <h2>Conclusion</h2>
-            <p>Ce manuel fournit une vue d'ensemble des fonctionnalités principales de l'application web Lacfom. Nous espérons que cet outil vous facilitera la gestion de vos analyses.</p>
-        </div>
     </div>
 
     <footer>
@@ -204,3 +198,4 @@
 
 </body>
 </html>
+
