@@ -80,17 +80,39 @@
             bottom: 0;
             width: 100%;
         }
+        .logo {
+            max-width: 200px;             
+            height: auto;   
+            object-fit: contain;
+            display: block;        
+            }
+        .logo-container{
+            display: flex;            
+            justify-content: center;  
+            gap: 20px;               
+            padding: 20px;
+
+}
+
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-container">
-            <img src="{% static 'images/logo.png'%}" alt="Logo LacFom" class="logo" height="75"/>
-            <img src="{% static 'images/logo_chu.png'%}"alt="Logo Université de Bordeaux" class="logo">
-         </div>
+            <img src="{% static 'images/logo.png'%}" alt="Logo LacFom" class="logo" />
+            <img src="{% static 'images/logo_chu.png'%}"alt="Logo Université de Bordeaux" class="logo"/>
+        </div>
         <h1>Manuel d'utilisation de l'interface Web Lacfom</h1>
     </header>
+    <section style="text-align: center; margin-top: 20px ;">
+        <a href="index.html">
+          <button style="padding: 10px 20px; font-size: 16px; cursor: pointer; background-color:#6B6B6B8F ; font-family: Pathway Gothic One, sans-serif; color : white">
+            Retour à l'accueil
+          </button>
+        </a>
+      </section>
+      
 
     <div class="container">
         <h2>Table des matières</h2>
@@ -197,5 +219,3 @@
     </footer>
 
 </body>
-</html>
-
