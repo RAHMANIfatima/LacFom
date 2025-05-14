@@ -25,8 +25,15 @@ def afficher_importation(request):
     """
     Permet de visuliser le contenue du fichier.
     """
-    contenu = request.session.pop("contenu_fichier", None)  # Récupère le contenu et le supprime après affichage
-    return render(request, "analyse/visualisation.html", {"contenu": contenu})
+    contenu = request.session.get("chemin_fichier", None)
+    try:
+        df = pd.read_csv(contenu, sep="\t", dtype=str)
+        df = df.fillna("")  # Remplir les valeurs vides pour éviter les NaN
+        table_html = df.to_html(classes="table table-bordered table-striped", index=False, border=0)
+    except Exception as e:
+        table_html = f"<p>Erreur lors de la lecture du fichier : {e}</p>"
+
+    return render(request, "analyse/visualisation.html", {"table_html": table_html})
 
 def traiter_choix(request):
     """
@@ -167,7 +174,7 @@ def affichage_resultat(request):
             code_tneg=1
             
 
-        print(f"Tpos : {echantillon.tpos.check()}\nTneg :{echantillon.tneg.check()}")
+        # print(f"Tpos : {echantillon.tpos.check()}\nTneg :{echantillon.tneg.check()}")
 
         if echantillon.concordance_mere_foet is True:
             concordance_mere_foet="OUI"
@@ -196,7 +203,7 @@ def affichage_resultat(request):
         nb_marqueurs_informatifs_contaminés=df_detail[1]
         moyenne_conta=df_detail[2]
 
-        is_conta=code_conclu >1
+        is_conta=code_conclu >1 # Si l'échantillon est non-significativement contaminé, il sera marqué comme contaminé
 
         print(f"Temoin : {echantillon.tpos.kit.get_tpos_data()}")
 
@@ -309,7 +316,6 @@ def exportation_pdf(request):
 
     # print(f"emetteur : {emetteur}\tentité : {entite}")
     # print(f"TPOS : {code_tpos}\t TNEG : {code_tneg} ")
-
 
 
     try:

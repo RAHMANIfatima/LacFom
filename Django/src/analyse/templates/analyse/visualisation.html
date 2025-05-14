@@ -4,24 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/colors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/visualisation.css' %}">
     <title>Lacfom</title>
 
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    
 </head>
 <body>
-    <header>
+
+    <header class="header-flex">
         <h1>Contenu du fichier</h1>
     </header>
-    
-    <a href="{% url 'traiter_choix' %}" id="Retour">Retour</a>
-    {% if contenu %}
 
-    <pre>{{ contenu }}</pre>
-    {% else %}
+    <div class="mt-4">
+        <a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
+    </div>
 
-    <p>Aucun fichier importé.</p>
-    {% endif %}
+    <div class="table-responsive">
+        {{ table_html|safe }}
+    </div>
 
 </body>
 </html>

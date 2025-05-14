@@ -50,6 +50,7 @@ def importer_fichier(request):
             return redirect("index")
 
         samples, donnees=resultat
+        request.session["chemin_fichier"]=chemin_fichier
         request.session["samples"]=samples
         request.session["donnees"]=donnees
 
