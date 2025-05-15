@@ -109,16 +109,25 @@ body{
     column-gap: 2rem;
 }
 
-.infos {
+/* .infos {
     border-width: 5px;
     border-style: double;
     border-color: var(--primary-color);
     columns: 2;
     column-gap: 0rem;
     padding-right: 2.5%;
+} */
+
+.informations table{
+    width: 100%;
+    border: solid 3px var(--primary-color);
 }
 
-.identification li, .infos li,.infos-foetus li {
+.informations table td{
+    border: solid 3px var(--primary-color);
+}
+
+li{
     list-style: none;
 }
 

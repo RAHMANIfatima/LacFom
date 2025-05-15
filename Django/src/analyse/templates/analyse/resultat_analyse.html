@@ -58,27 +58,35 @@
                 <li>Num Père : {{ num_pere }}</li>
             </ul>
         </div>
-        <div class="infos-foetus">
-            <li>Sexe foetus : {{ sexe }}</li>
-        </div>
+        <div class="infos-analyse">
+            <table>
+                <tr>
+                    <td> Sexe du foetus : {{ sexe }}</td>
+                    <td>
+                        <ul>
+                            {% if is_tpos %}
+                            <li>Témoin positif : <img src="{% static 'images/check.png' %}" alt="check" width="15"> </li>
+                            {% else %}
+                            <li>Témoin positif : <img src="{% static 'images/cross.png' %}" alt="croix" width="15"> </li>
+                            {% endif %}
+            
+                            {% if is_tneg %}
+                            <li>Témoin négatif : <img src="{% static 'images/check.png' %}" alt="check" width="15"> </li>
+                            {% else %}
+                            <li>Témoin négatif : <img src="{% static 'images/cross.png' %}" alt="croix" width="15"> </li>
+                            {% endif %}
+            
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Concordance Mère/Foetus : {{ concordance_mere_foet }}</li>
+                            <li>Concordance Père/Foetus : {{ concordance_pere_foet }}</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
 
-        <div class="infos">
-            <ul>
-                {% if is_tpos %}
-                <li>Témoin positif : <img src="{% static 'images/check.png' %}" alt="check" width="15"> </li>
-                {% else %}
-                <li>Témoin positif : <img src="{% static 'images/cross.png' %}" alt="croix" width="15"> </li>
-                {% endif %}
-
-                {% if is_tneg %}
-                <li>Témoin négatif : <img src="{% static 'images/check.png' %}" alt="check" width="15"> </li>
-                {% else %}
-                <li>Témoin négatif : <img src="{% static 'images/cross.png' %}" alt="croix" width="15"> </li>
-                {% endif %}
-
-                <li>Concordance Mère/Foetus : {{ concordance_mere_foet }}</li>
-                <li>Concordance Père/Foetus : {{ concordance_pere_foet }}</li>
-            </ul>
         </div>
     </div>
     
