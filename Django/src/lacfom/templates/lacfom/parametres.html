@@ -70,6 +70,36 @@
                         <input type="file" id="json-file" name="json_file" accept=".json" class="form-control w-50">
                     </div>
                 </div>
+                <script>
+                    let kitData = {}; // Variable pour stocker les données du kit
+                
+                    document.getElementById('json-file').addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                try {
+                                    kitData = JSON.parse(e.target.result); // Charger le JSON dans la variable
+                                    console.log("Kit chargé :", kitData);
+                                    alert("Kit chargé avec succès !");
+                                } catch (error) {
+                                    console.error("Erreur lors de la lecture du fichier JSON :", error);
+                                    alert("Erreur : fichier JSON invalide.");
+                                }
+                            };
+                            reader.readAsText(file);
+                        }
+                    });
+                
+                    // Ajouter les données du kit au formulaire lors de la soumission
+                    document.querySelector('form').addEventListener('submit', function(event) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'kit_data';
+                        hiddenInput.value = JSON.stringify(kitData); // Ajouter les données du kit au formulaire
+                        this.appendChild(hiddenInput);
+                    });
+                </script>
 
                 <!-- Boutons d'action -->
                 <div class="text-center">

@@ -3,6 +3,7 @@ from django.contrib import messages
 from Algo.traitement import lecture_fichier
 from django.conf import settings
 import os
+import json  # Ajoutez cette ligne pour importer le module JSON
 
 def index(request):
     """
@@ -75,7 +76,7 @@ def changer_parametres(request):
     """
     Page paramètres.
 
-    Enregistre les valeurs entrées pour l'algorithme.
+    Enregistre les valeurs entrées pour l'algorithme et les données du kit.
     """
     valeurs_defaut = {
         "nmarqueurs": "2",
@@ -87,50 +88,52 @@ def changer_parametres(request):
     if request.method == "POST":
         next_url = request.POST.get("next")
         if "reset" in request.POST:
-            # Si on clique sur le bouton Réinitialiser = valeurs par défaut
+            # Réinitialiser les paramètres et supprimer les données du kit
             request.session["parametres"] = valeurs_defaut
-            # messages.success(request, "Les paramètres ont été enregistrés avec succès.")
-
+            request.session.pop("kit_data", None)  # Supprimer les données du kit
             if next_url:
                 return redirect(next_url)
             else:
                 return redirect("index")
             
         elif "previous" in request.POST:
-            # Si on clique sur retour revient tout simplement en arrière
+            # Retourner à la page précédente
             if next_url:
                 return redirect(next_url)
             else:
                 return redirect("index")
         else:
-            # Sinon, on enregistre les nouvelles valeurs et rediriges vers la page précédente (menu d'accueil ou page résultat)
+            # Enregistrer les nouvelles valeurs et les données du kit
             request.session["parametres"] = {
                 "nmarqueurs": request.POST.get("nmarqueurs", "2"),
                 "hpics": request.POST.get("hpics", "1/3"),
                 "emet": request.POST.get("emet", "PBP-P2A-GEN"),
                 "enti": request.POST.get("enti", "PBP-PTBM")
             }
-            messages.success(request, "Les paramètres ont été enregistrés avec succès.")
+
+            # Gérer les données du kit
+            kit_data = request.POST.get("kit_data")
+            if kit_data:
+                try:
+                    kit_data = json.loads(kit_data)  # Convertir en dictionnaire
+                    request.session["kit_data"] = kit_data
+                    messages.success(request, "Les paramètres et le kit ont été enregistrés avec succès.")
+                except json.JSONDecodeError:
+                    messages.error(request, "Erreur : données du kit invalides.")
+            else:
+                messages.success(request, "Les paramètres ont été enregistrés avec succès.")
 
             if next_url:
                 return redirect(next_url)
             else:
                 return redirect("index")
-        
 
     # Récupération des paramètres depuis la session ou valeurs par défaut
     parametres = request.session.get("parametres", valeurs_defaut)
 
-    # for valeur in parametres.keys():
-    #     print(f"{valeur} : {parametres[valeur]}")
-
-    print("#############")
-    print(f'N={parametres["nmarqueurs"]} et H={parametres["hpics"]}')
-
-
-    request.session["N"]=parametres["nmarqueurs"]
-    request.session["H"]=parametres["hpics"]
-    request.session["emetteur"]=parametres["emet"]
-    request.session["entite"]=parametres["enti"]
+    request.session["N"] = parametres["nmarqueurs"]
+    request.session["H"] = parametres["hpics"]
+    request.session["emetteur"] = parametres["emet"]
+    request.session["entite"] = parametres["enti"]
 
     return render(request, "lacfom/parametres.html", {"parametres": parametres})
