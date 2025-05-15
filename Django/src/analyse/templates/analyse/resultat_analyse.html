@@ -83,7 +83,7 @@
     </div>
     
     <div class="resultats">
-        <table class="table">
+        <table>
             <thead>
                 <tr>
                   <th><strong>Marqueur</strong></th>
@@ -93,10 +93,10 @@
             </thead>
             <tbody>
                 {% for ligne in dict_resultat %}
-                <tr class="{% if ligne.Conclusion == 'Non contaminé' %}ligne-non-contamine{% endif %}">
-                    <td>{{ ligne.Marqueur }}</td>
-                    <td class="{% if ligne.Conclusion == 'Contaminé' %}texte-contamine{% endif %}">{{ ligne.Conclusion }}</td>
-                    <td>{{ ligne.Détails_M_F }}</td>
+                <tr class="{% if ligne.Conclusion == 'Non contaminé' %}ligne-infos{% endif %} {% if ligne.Conclusion == 'Contaminé' %}ligne-infos{% endif %}"> 
+                    <td><strong>{{ ligne.Marqueur }}</strong></td>
+                    <td class="{% if ligne.Conclusion == 'Contaminé' %}texte-contamine{% endif %} {% if ligne.Conclusion == 'Non contaminé' %}texte-non-contamine{% endif %}">{{ ligne.Conclusion }}</td>
+                    <td class="{% if ligne.Conclusion == 'Contaminé' %}texte-contamine{% endif %}">{{ ligne.Détails_M_F }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
