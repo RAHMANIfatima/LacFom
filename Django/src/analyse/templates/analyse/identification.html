@@ -101,43 +101,12 @@
         </div>
     </div>
     {% endif %}
-    <!-- 
     <script>
-        let kitData = {}; // Variable globale pour stocker les données du kit
-    
-        document.getElementById('json-file').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        kitData = JSON.parse(e.target.result); // Charger le JSON dans la variable
-                        console.log("Kit chargé :", kitData);
-                        alert("Kit chargé avec succès !");
-                    } catch (error) {
-                        console.error("Erreur lors de la lecture du fichier JSON :", error);
-                        alert("Erreur : fichier JSON invalide.");
-                    }
-                };
-                reader.readAsText(file);
-            }
-        });
-    
-        // Fonction pour transmettre les données du kit au backend lors de la soumission
-        document.querySelector('form[action="{% url "attribution_origine" %}"]').addEventListener('submit', function(event) {
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'kit_data';
-            hiddenInput.value = JSON.stringify(kitData); // Ajouter les données du kit au formulaire
-            console.log(kitData)
-            console.log(hiddenInput)
-            this.appendChild(hiddenInput);
-        });
 
     function fermerPopup() {
         document.getElementById("popup-alert").style.display = "none";
     }
+    
     </script>
-    -->
 </body>
 </html>
