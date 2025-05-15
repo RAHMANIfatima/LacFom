@@ -26,11 +26,13 @@
         <div class="dropdown d-inline">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Options</button>
             <div class="dropdown-menu">
+                <!--
                 <form id="upload-json-form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <label for="json-file" class="dropdown-item">Changer de kit</label>
                     <input type="file" id="json-file" name="json_file" accept=".json" class="form-control">
                 </form>
+                -->
         
                 <form action="{% url 'afficher_importation' %}">
                     <button class="dropdown-item">Visualiser les résultats</button>
@@ -99,7 +101,7 @@
         </div>
     </div>
     {% endif %}
-
+    <!-- 
     <script>
         let kitData = {}; // Variable globale pour stocker les données du kit
     
@@ -136,5 +138,6 @@
         document.getElementById("popup-alert").style.display = "none";
     }
     </script>
+    -->
 </body>
 </html>

@@ -19,6 +19,8 @@ from Algo.pere import Pere
 from Algo.temoin import Temoin
 from Algo import traitement
 from Algo import pdf_feuille_resultat
+from Algo.kit import Kit
+
 
 
 def afficher_importation(request):
@@ -63,30 +65,18 @@ def attribution_origine(request):
     """
     Attribue les échantillons à leur origine choisies dans la page d'identification.
     Enregistre les origines dans un dictionnaire sous la forme {'mere':'sample1','foetus':'sample2'}.
-    Gère également les données du kit si elles sont présentes.
     """
     samples = request.session.get("samples")
-    kit_data = request.POST.get("kit_data")  # Récupérer les données du kit depuis le formulaire
-
-    # Si kit_data est présent dans le formulaire, le stocker dans la session
-    if kit_data:
-        try:
-            kit_data = json.loads(kit_data)  # Convertir en dictionnaire
-            request.session["kit_data"] = kit_data
-        except json.JSONDecodeError:
-            print("Erreur : données du kit invalides.")
-            kit_data = None
+    kit_data = get_kit_from_request_or_default(request)
 
     dictsamples = {}
-
-    # Récupérer les choix des utilisateurs pour chaque échantillon
     for nom in samples:
         valeur = request.POST.get(nom)
         if valeur:
-            dictsamples[valeur]=nom
+            dictsamples[valeur] = nom
     
     if "foetus" not in dictsamples or "mother" not in dictsamples:
-        messages.error(request,"Veuillez sélectionner un foetus et un mère.")
+        messages.error(request, "Veuillez sélectionner un foetus et une mère.")
         return redirect("Traiter_choix")
     
     print("Attribution origine")
@@ -95,6 +85,7 @@ def attribution_origine(request):
 
     # Stocker les données dans la session
     request.session["dictsamples"] = dictsamples
+    request.session["kit_data"] = kit_data  # Mettre à jour le kit utilisé dans la session
 
     return redirect("analyse_resultat")
 
@@ -102,66 +93,34 @@ def analyse_resultat(request):
     """
     Fonction qui crée l'instance de l'échantillon et lui attribue les paramètres et les résultats de l'analyse.
     """
-    N=request.session.get("N")
-    H=request.session.get("H")
-    dictsamples=request.session.get("dictsamples") 
-    donnees=request.session.get("donnees")
-    samples=request.session.get("samples")
-    selected_kit = request.session.get("kit_data")  # Récupérer le kit sélectionné
+    N = request.session.get("N")
+    H = request.session.get("H")
+    dictsamples = request.session.get("dictsamples") 
+    donnees = request.session.get("donnees")
+    samples = request.session.get("samples")
+    selected_kit = get_kit_from_request_or_default(request)
+
     try:
-        if selected_kit and isinstance(selected_kit, str):
-            selected_kit = ast.literal_eval(selected_kit)
-    except:
-        print("une erreur est survenue lors de la conversion du kit")
-        selected_kit = None
-
-    if "continuer" not in request.POST:
-        alertes = []
-
-        if donnees is not None:
-            if isinstance(donnees, list):
-                donnees_df = donnees[1] if isinstance(donnees[1], pd.DataFrame) else pd.DataFrame(donnees)
-            else:
-                donnees_df = pd.DataFrame(donnees)
-
-            if "TPOS" not in donnees_df["Sample Name"].values:
-                alertes.append("Le témoin positif (TPOS) est manquant.")
-            if "TNEG" not in donnees_df["Sample Name"].values:
-                alertes.append("Le témoin négatif (TNEG) est manquant.")
-
-        if alertes:
-            if samples and len(samples) == 3:
-                return render(request, "analyse/identification_avec_pere.html", {
-                    "alertes": alertes,
-                })
-            else:
-                return render(request, "analyse/identification.html", {
-                    "alertes": alertes,
-                })
-    try : 
-        echantillon = traitement.computedata(dictsamples, donnees,selected_kit)
-        # echantillon.InfoParametre["Echantillon"]=echantillon
-        code=traitement.concordance_ADN(echantillon)
+        echantillon = traitement.computedata(dictsamples, donnees, selected_kit)
+        code = traitement.concordance_ADN(echantillon)
         if code:
-            messages.error(request,code)
+            messages.error(request, code)
             return redirect("traiter_choix")
 
-
-        if N and H is not None: # Met à jour les valeurs changer dans Paramètres
+        if N and H is not None:  # Met à jour les valeurs changées dans Paramètres
             echantillon.set_seuil_hauteur(eval(H))
             echantillon.set_seuil_nbre_marqueurs(float(N))
             print("Attribution des taux réussi")
 
-        # print(f"N: {echantillon.seuil_nbre_marqueurs}\nH:{echantillon.seuil_hauteur}")
         echantillon.analyse_marqueur()
         print("Fonction analyse_données réussi")
     
     except Exception as e:
         print(f"ERREUR : Chargement des données impossible - {e} -")
-        messages.error(request,"Chargement des données impossible")
+        messages.error(request, "Chargement des données impossible")
         return redirect("traiter_choix")
     
-    request.session["echantillon"]=echantillon
+    request.session["echantillon"] = echantillon
 
     return redirect("affichage_resultat")
 
@@ -361,3 +320,30 @@ def exportation_pdf(request):
     except KeyError as e:
         print(f"Échec lancement création pdf : {e}")
         return redirect("affichage_resultat")
+    
+    
+def get_kit_from_request_or_default(request):
+    """
+    Récupère le kit depuis la requête POST ou la session. Si aucun kit n'est trouvé, charge le kit par défaut.
+    """
+    kit_data = request.POST.get("kit_data")
+    if kit_data:
+        try:
+            kit_data = json.loads(kit_data)
+            print("Kit personnalisé chargé :", kit_data)
+            request.session["kit_data"] = kit_data
+            return kit_data
+        except json.JSONDecodeError:
+            print("Erreur : données du kit personnalisé invalides.")
+    
+    # Fallback : charger depuis la session ou par défaut
+    kit_data = request.session.get("kit_data")
+    if not kit_data:
+        kit_object = Kit()
+        kit_data = {
+            "name": kit_object.name,
+            "TPOS": kit_object.get_tpos_data()
+        }
+        print("Kit par défaut chargé :", kit_data)
+        request.session["kit_data"] = kit_data
+    return kit_data

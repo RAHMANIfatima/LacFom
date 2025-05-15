@@ -11,12 +11,14 @@ class Kit:
         :param name: Nom du kit (str)
         :param json_path: Chemin vers le fichier JSON (str)
         """
+        
+        if not kit or not kit.get("TPOS",None):
+            self.json_path = Path(__file__).resolve().parent / "kit_marqueurs.json"
+            kit = self.load_data()
+            
         print('---------------------kit dans temoins--------------------------------')
         print(kit)
         print('-----------------------------------------------------------')
-        if not kit:
-            self.json_path = Path(__file__).resolve().parent / "kit_marqueurs.json"
-            kit = self.load_data()
 
         self.tpos_data = kit.get("TPOS", {})  
         self.name = kit.get("name", 'PP16')
@@ -34,6 +36,8 @@ class Kit:
         except json.JSONDecodeError:
             print(f"Erreur : le fichier JSON {self.json_path} est invalide.")
             return {}
+        except Exception as e :
+            print (e)
         
     def get_nb_marqueurs(self):
         """"Retourne le nombre de marqueurs présents dans le kit de TPOS."""""
