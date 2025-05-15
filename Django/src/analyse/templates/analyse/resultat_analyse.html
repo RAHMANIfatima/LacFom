@@ -120,12 +120,6 @@
             </form>
         </div>
         
-        <div class="exportation">
-            <a href="{% url 'exportation_pdf' %}" target="_blank">
-                <button type="submit">Export PDF </button>
-            </a>
-        </div>
-        
         <div class="details-conta">
             <table class="table table-responsive table-striped">
                 <tr>
@@ -146,6 +140,12 @@
                 </tr>
             </table>
         </div>
+    </div>
+    
+    <div class="exportation">
+        <a href="{% url 'exportation_pdf' %}" target="_blank">
+            <button type="submit">Export PDF </button>
+        </a>
     </div>
 
     <div class="parametres">
@@ -170,7 +170,43 @@
             console.log("Réponse du serveur :", data);
         })
         .catch(error => console.error("Erreur :", error));
-    }
+    };
+    window.addEventListener('DOMContentLoaded', () => {
+        const toastElements = document.querySelectorAll('.toast');
+        toastElements.forEach(toastEl => {
+            const toast = new bootstrap.Toast(toastEl, { autohide: true });
+            toast.show();
+        });
+    });
 </script>
+
+{% if messages %} 
+    {% for message in messages %}
+        <div class="toast position-fixed top-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto 
+                    {% if message.tags == 'success' %} text-success 
+                    {% elif message.tags == 'error' %} text-danger 
+                    {% elif message.tags == 'warning' %} text-warning 
+                    {% else %} text-info 
+                    {% endif %}">
+                    {% if message.tags == 'success' %}
+                        Succès
+                    {% elif message.tags == 'error' %}
+                        Erreur
+                    {% elif message.tags == 'warning' %}
+                        Attention
+                    {% else %}
+                        Info
+                    {% endif %}
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
     
 </html>
