@@ -89,6 +89,8 @@ def changer_parametres(request):
         if "reset" in request.POST:
             # Si on clique sur le bouton Réinitialiser = valeurs par défaut
             request.session["parametres"] = valeurs_defaut
+            # messages.success(request, "Les paramètres ont été enregistrés avec succès.")
+
             if next_url:
                 return redirect(next_url)
             else:
@@ -108,7 +110,8 @@ def changer_parametres(request):
                 "emet": request.POST.get("emet", "PBP-P2A-GEN"),
                 "enti": request.POST.get("enti", "PBP-PTBM")
             }
-            # TODO rajouter un mot pour dire que c'est bon
+            messages.success(request, "Les paramètres ont été enregistrés avec succès.")
+
             if next_url:
                 return redirect(next_url)
             else:
