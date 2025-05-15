@@ -81,6 +81,25 @@
         </div>
     </div>
 
+    {% if alertes %}
+    <div id="popup-alert" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Attention</h3>
+            <ul>
+                {% for alerte in alertes %}
+                    <li>{{ alerte }}</li>
+                {% endfor %}
+            </ul>
+            <form method="post" action="{% url 'analyse_resultat' %}">
+                {% csrf_token %}
+                <input type="hidden" name="continuer" value="oui">
+                <button type="submit" class="btn btn-success">Continuer quand même</button>
+                <button type="button" class="btn btn-secondary" onclick="fermerPopup()">Annuler</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
     <script>
         let kitData = {}; // Variable globale pour stocker les données du kit
     
@@ -112,6 +131,10 @@
             console.log(hiddenInput)
             this.appendChild(hiddenInput);
         });
+
+    function fermerPopup() {
+        document.getElementById("popup-alert").style.display = "none";
+    }
     </script>
 </body>
 </html>

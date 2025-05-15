@@ -47,11 +47,11 @@ def lecture_fichier(path_data_frame):
     if donnees[donnees["Sample Name"].str.contains(r'T.*POS|T\+|[Tt]?emoin[ ]?\+|[Tt]?emoin[ ]?[POS|positif]', regex=True) == True].shape[0] == 0:
         logger.error("Temoin positif absent", exc_info=True)
         # 2: T POS absent
-        return "T POS absent"
+        # return "T POS absent"
     elif donnees[donnees["Sample Name"].str.contains(r'T.*NEG|T\-|[Tt]?emoin[ ]?\-|[Tt]?emoin[ ]?[NEG|negatif]|BLANC|BLC|Blanc', regex=True) == True].shape[0] == 0:
         logger.error("Temoin negatif absent", exc_info=True)
         # 3: T NEG absent
-        return "T NEG absent"
+        # return "T NEG absent"
     # Check the presence of the father
     elif donnees.shape[0]%5 == 0 or donnees.shape[0]%4 == 0:
         logger.error("Presence ou Absence des données du pere", exc_info=True)
@@ -67,8 +67,10 @@ def lecture_fichier(path_data_frame):
 
     # Get sample names to associate
     allsamples = pd.unique(donnees["Sample Name"]).tolist()
-    allsamples.remove("TPOS")
-    allsamples.remove("TNEG")
+    if "TPOS" in allsamples:
+        allsamples.remove("TPOS")
+    if "TNEG" in allsamples:
+        allsamples.remove("TNEG")
 
     return [allsamples, donnees]
 

@@ -106,6 +106,7 @@ def analyse_resultat(request):
     H=request.session.get("H")
     dictsamples=request.session.get("dictsamples") 
     donnees=request.session.get("donnees")
+    samples=request.session.get("samples")
     selected_kit = request.session.get("kit_data")  # Récupérer le kit sélectionné
     try:
         if selected_kit and isinstance(selected_kit, str):
@@ -114,6 +115,29 @@ def analyse_resultat(request):
         print("une erreur est survenue lors de la conversion du kit")
         selected_kit = None
 
+    if "continuer" not in request.POST:
+        alertes = []
+
+        if donnees is not None:
+            if isinstance(donnees, list):
+                donnees_df = donnees[1] if isinstance(donnees[1], pd.DataFrame) else pd.DataFrame(donnees)
+            else:
+                donnees_df = pd.DataFrame(donnees)
+
+            if "TPOS" not in donnees_df["Sample Name"].values:
+                alertes.append("Le témoin positif (TPOS) est manquant.")
+            if "TNEG" not in donnees_df["Sample Name"].values:
+                alertes.append("Le témoin négatif (TNEG) est manquant.")
+
+        if alertes:
+            if samples and len(samples) == 3:
+                return render(request, "analyse/identification_avec_pere.html", {
+                    "alertes": alertes,
+                })
+            else:
+                return render(request, "analyse/identification.html", {
+                    "alertes": alertes,
+                })
     try : 
         echantillon = traitement.computedata(dictsamples, donnees,selected_kit)
         # echantillon.InfoParametre["Echantillon"]=echantillon
