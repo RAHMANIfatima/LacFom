@@ -20,10 +20,8 @@
     </header>
 
     <!-- Boutons déplacés en bas du header, en haut à gauche -->
-    <div class="btn-grp mt-3 ms-3">
-        <a href="{% url 'index' %}">
-            <button type="submit" class="btn btn-secondary">Accueil</button>
-        </a>
+    <div class="btn-grp mt-3 ms-3" >
+        <a href="{% url 'index' %}" class="btn btn-secondary" onclick="return confirmerExport()">Accueil</a>
         <div class="dropdown d-inline">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Fichier</button>
             <div class="dropdown-menu">
@@ -186,6 +184,9 @@
             toast.show();
         });
     });
+    function confirmerExport(){
+        return confirm("ATTENTION : Vous vous apprêter à quitter cette page.\nAvez-vous bien exporté le document en PDF ?")
+    }
 </script>
 
 {% if messages %} 
@@ -216,5 +217,7 @@
         </div>
     {% endfor %}
 {% endif %}
+
+
     
 </html>
