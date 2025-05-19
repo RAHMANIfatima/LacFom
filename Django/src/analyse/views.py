@@ -289,7 +289,12 @@ def exportation_pdf(request):
     N=request.session.get("N")
     H=request.session.get("H")
     nom_pdf=str(echantillon.get_id()) + "_" + nom_utilisateur
-    chemin_pdf=os.path.join(settings.MEDIA_ROOT, (nom_pdf + ".pdf"))
+    chemin_dossier=request.session.get("chemin_dossier")
+    print(f"Chemin dossier : {chemin_dossier}")
+    if not chemin_dossier:
+        chemin_dossier=settings.MEDIA_ROOT
+
+    chemin_pdf=os.path.join(chemin_dossier, (nom_pdf + ".pdf"))
 
     # print(f"emetteur1 : {emetteur}\tentité : {entite}")
 
@@ -299,7 +304,7 @@ def exportation_pdf(request):
         N="2"
         H="1/3"
 
-    print(f"choix : {choix}\tConclusion : {code_conclu}")
+    # print(f"choix : {choix}\tConclusion : {code_conclu}")
     if choix is None :
         choix=0
     try:
@@ -326,7 +331,7 @@ def exportation_pdf(request):
 
 
     try:
-        pdf_feuille_resultat.creation_PDF(settings.MEDIA_ROOT,
+        pdf_feuille_resultat.creation_PDF(chemin_dossier,
                                           echantillon,
                                           nom_pdf,
                                           conclu,

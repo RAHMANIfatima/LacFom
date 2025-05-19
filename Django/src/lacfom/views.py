@@ -36,11 +36,12 @@ def importer_fichier(request):
         contenu = fichier.read()  # Lit le contenu du fichier
         request.session["contenu_fichier"] = contenu.decode("utf-8")
 
-        uploads_path = os.path.join(settings.MEDIA_ROOT, "uploads")
-        os.makedirs(uploads_path, exist_ok=True)
+        # uploads_path = os.path.join("PP16")
+        uploads_path="/home/malala/cours/lacfom/PP16/PP16-test/Patient_1"
+        # os.makedirs(uploads_path, exist_ok=True)
 
         chemin_fichier = os.path.join(uploads_path, fichier.name)
-        
+        # chemin_fichier="/home/malala/cours/lacfom/PP16/PP16-test/Patient_1/Cas avec 4.txt"
         with open(chemin_fichier,"wb") as dest:
             dest.write(contenu)
 
@@ -52,6 +53,7 @@ def importer_fichier(request):
 
         samples, donnees=resultat
         request.session["chemin_fichier"]=chemin_fichier
+        request.session["chemin_dossier"]=uploads_path
         request.session["samples"]=samples
         request.session["donnees"]=donnees
 
