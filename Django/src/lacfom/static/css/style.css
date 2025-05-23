@@ -17,7 +17,6 @@ body {
 
 .Bienvenue {
     padding-top: clamp(1rem, 4vh, 3rem);
-    /* position: relative; */
     color: var(--primary-color);
 }
 

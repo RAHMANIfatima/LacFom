@@ -3,7 +3,7 @@ from django.contrib import messages
 from Algo.traitement import lecture_fichier
 from django.conf import settings
 import os
-import json  # Ajoutez cette ligne pour importer le module JSON
+import json 
 
 def index(request):
     """
@@ -36,12 +36,10 @@ def importer_fichier(request):
         contenu = fichier.read()  # Lit le contenu du fichier
         request.session["contenu_fichier"] = contenu.decode("utf-8")
 
-        # uploads_path = os.path.join("PP16")
+        # Chemin à modifier avec l'arborescence des postes du CHU
         uploads_path="/home/malala/cours/lacfom/PP16/PP16-test/Patient_1"
-        # os.makedirs(uploads_path, exist_ok=True)
 
         chemin_fichier = os.path.join(uploads_path, fichier.name)
-        # chemin_fichier="/home/malala/cours/lacfom/PP16/PP16-test/Patient_1/Cas avec 4.txt"
         with open(chemin_fichier,"wb") as dest:
             dest.write(contenu)
 

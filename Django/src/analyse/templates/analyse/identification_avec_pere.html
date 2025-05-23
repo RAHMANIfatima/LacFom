@@ -88,7 +88,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="continuer" value="oui">
                 <button type="submit" class="btn btn-success">Continuer quand même</button>
-                <button type="button" class="btn btn-secondary" onclick="fermerPopup()">Annuler</button>
+                <a class="btn btn-secondary" href="{% url 'index' %}">Annuler</a>
             </form>
         </div>
     </div>

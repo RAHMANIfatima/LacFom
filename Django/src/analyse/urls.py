@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import traiter_choix,analyse_resultat,afficher_importation,choix_kit,attribution_origine,affichage_resultat,exportation_pdf,change_radio_selection
-from .marqueurs.kits_views import add_kit, delete_kit, marquers
+
 
 
 urlpatterns = [
@@ -10,8 +10,6 @@ urlpatterns = [
     path("affichage-resultat",affichage_resultat,name="affichage_resultat"),
     path("visualisation/",afficher_importation,name="afficher_importation"),
     path('choix-du-kit/',choix_kit,name="choix_kit"),
-    path('add-kit/', add_kit, name='add-kit'),
-    path('delete-kit/<str:kit_name>/', delete_kit, name='delete-kit'),
     path('exportation',exportation_pdf,name="exportation_pdf"),
     path('change_radio_selection/', change_radio_selection, name='change_radio_selection'),
 

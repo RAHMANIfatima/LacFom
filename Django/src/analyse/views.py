@@ -1,8 +1,5 @@
-import ast
 from django.shortcuts import render,redirect
-from .marqueurs.marquers import get_kits, load_kits, save_kits
 from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
 from django.http import FileResponse,JsonResponse
 from django.conf import settings
 
@@ -163,7 +160,6 @@ def affichage_resultat(request):
         code_conclu = echantillon.get_contamine()
         nom_projet = echantillon.get_id()
         num_mere= echantillon.mere.ID
-        # nom_pdf=str(echantillon.get_id()) + "_" + str(self.onglets[echantillon.get_id()]) + "_" + nom_utilisateur"]
         is_tpos=len(echantillon.tpos.check())==0
         is_tneg=len(echantillon.tneg.check())>0
         
@@ -203,8 +199,6 @@ def affichage_resultat(request):
             num_pere = echantillon.pere.ID
             pres_pere = "OUI"
         num_foetus = echantillon.foetus.ID
-        # filename = filename
-        # path = instance_path
 
         nb_marqueurs_informatifs_non_contaminés=df_detail[0]
         nb_marqueurs_informatifs_contaminés=df_detail[1]
@@ -218,9 +212,6 @@ def affichage_resultat(request):
         print(f"Erreur : {e}")
         messages.error(request,"Chargement des données impossible")
         return redirect("traiter_choix")
-
-    # tableau_resultat=df_conclusion.to_html(classes="table table-bordered w-100", index=False) #TODO Faire en sorte que quand la conclusion est "non contaminé" la ligne soit verte et si la conclusion est "contaminé" la ligne est rouge
-    #Besoin importer Jinja2 ?
 
     request.session["code_tpos"]=code_tpos
     request.session["code_tneg"]=code_tneg
@@ -304,7 +295,7 @@ def exportation_pdf(request):
         N="2"
         H="1/3"
 
-    # print(f"choix : {choix}\tConclusion : {code_conclu}")
+    print(f"choix : {choix}\tConclusion : {code_conclu}")
     if choix is None :
         choix=0
     try:

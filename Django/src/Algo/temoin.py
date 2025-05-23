@@ -1,4 +1,3 @@
-
 from Algo.individus import Individus
 from Algo.kit import Kit
 
@@ -29,7 +28,6 @@ class Temoin(Individus):
         elif "NEG" in self.ID.upper():
             return False
         else:
-            # Ni temoin positif ni negatif ... probleme
             return 6
 
     def check(self):

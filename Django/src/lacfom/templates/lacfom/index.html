@@ -14,11 +14,9 @@
         
     </head>
 
-    <header></header>
-    
     <body>
         <div class="Bienvenue">
-            <h1><strong>Bonjour {{user_name}}</strong></h1>
+            <h1><strong>Bonjour</strong></h1>
             <img src="{% static 'images/logo.png'%}" alt="Logo LacFom" class="logo" height="250"/>
 
         </div>
@@ -31,17 +29,13 @@
             <div id="Importation">
                 <p>Veuillez choisir un fichier : </p>
 
-                {% if error %}
-                    <p style="color: red;">{{ error }}</p>
-                {% endif %}
-
                 <form action="{% url 'importer_fichier' %}" method="post" enctype="multipart/form-data"> <!-- {% url 'importer_fichier' %} permet de générer l'URL associé à la vue 'importer fichier' ui est définie dans urls.py -->
                     {% csrf_token %} <!-- Protection de Django pour requêtes POST -->
 
                     <input type="file" name="fichier" accept=".txt"required>
                     {{ form.as_p }} <!-- Formulaire Django forms.py-->
                         <button type="submit" class="btn btn-outline-primary">Importer</button>
-                    </form>
+                </form>
 
                     <!-- Gestion d'erreur-->
                     {% if messages %} 

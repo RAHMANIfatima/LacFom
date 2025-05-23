@@ -62,3 +62,31 @@ table tr {
 th, td {
     background-color: #FFFAFA !important;
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 69px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 69px); /* N'inclut pas la hauteur du header */
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.modal-overlay h3{
+    color: var(--rouge);
+    font-style: bold;
+}
