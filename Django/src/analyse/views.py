@@ -41,6 +41,7 @@ def traiter_choix(request):
     """
     samples = request.session.get("samples")
     donnees = request.session.get("donnees")
+    #print(f"longueur de samples : {len(samples)}\t --> {samples}")
 
     if samples and len(samples) == 3:
         print("Présence d'un père")
@@ -77,8 +78,8 @@ def attribution_origine(request):
         return redirect("Traiter_choix")
     
     print("Attribution origine")
-    for origine, sample in dictsamples.items():
-        print(f"{origine} --> {sample}")
+    # for origine, sample in dictsamples.items():
+    #     print(f"{origine} --> {sample}")
 
     # Stocker les données dans la session
     request.session["dictsamples"] = dictsamples
@@ -206,7 +207,7 @@ def affichage_resultat(request):
 
         is_conta=code_conclu >1 # Si l'échantillon est non-significativement contaminé, il sera marqué comme contaminé
 
-        print(f"Temoin : {echantillon.tpos.kit.get_tpos_data()}")
+        # print(f"Temoin : {echantillon.tpos.kit.get_tpos_data()}")
 
     except Exception as e:
         print(f"Erreur : {e}")
@@ -218,7 +219,7 @@ def affichage_resultat(request):
 
     # print(df_detail)
     # print(f"code_conclu: {code_conclu}")
-    print(f"dict_resultat : {dict_resultat}")
+    # print(f"dict_resultat : {dict_resultat}")
     
     ########################## PREPARATION DU TABLEAU ##########################
     ndict_resultat=[
@@ -273,6 +274,7 @@ def exportation_pdf(request):
     code_tneg=request.session.get("code_tneg")
     code_conclu = echantillon.get_contamine()
     choix=request.session.get("contamination")
+    marqueurs=list(echantillon.tpos.kit.get_tpos_data().keys())
     nom_utilisateur="User_test"
     emetteur=request.session.get("emetteur")
     entite=request.session.get("entite")
@@ -320,6 +322,7 @@ def exportation_pdf(request):
     # print(f"emetteur : {emetteur}\tentité : {entite}")
     # print(f"TPOS : {code_tpos}\t TNEG : {code_tneg} ")
 
+    
 
     try:
         pdf_feuille_resultat.creation_PDF(chemin_dossier,
@@ -334,7 +337,7 @@ def exportation_pdf(request):
                                           code_tneg,
                                           entite,
                                           emetteur,
-                                          version)
+                                          version,marqueurs)
         return FileResponse(open(chemin_pdf, 'rb'), content_type='application/pdf')
 
     except KeyError as e:

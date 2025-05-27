@@ -113,7 +113,7 @@ def style_resultat_conclusion(mot):
 
 '''Création des flowables et définition du style graphique sauf pour tableau central'''
 
-def creat_struct_pdf(Concordance_mf, Concordance_pf,Entite_d_Application,Emetteur,version):
+def creat_struct_pdf(Concordance_mf, Concordance_pf,Entite_d_Application,Emetteur,version,marqueurs):
     '''input:
     Concordance_mf (string) : consistency between the DNA of the mother and the foetus
     Concordance_pf (string) : consistency between the DNA of the father and the foetus
@@ -187,76 +187,34 @@ def creat_struct_pdf(Concordance_mf, Concordance_pf,Entite_d_Application,Emetteu
     if Concordance_mf=="OUI": 
         if Concordance_pf=="OUI" or Concordance_pf=="ABS" :
             data = [ [colonne("Marqueurs"),colonne("Contamination materno-fœtale"),"","",""],
-                     ["",colonne("Informativité"),colonne("Résultat"),colonne("Pourcentage de contamination"),colonne("Détails")],
-                     [colonne_marqueur("CSF1PO"),"","","",""],
-                     [colonne_marqueur("D13S317"),"","","",""],
-                     [colonne_marqueur("D16S539"),"","","",""],
-                     [colonne_marqueur("D18S51"),"","","",""],
-                     [colonne_marqueur("D21S11"),"","","",""],
-                     [colonne_marqueur("D3S1358"),"","","",""],
-                     [colonne_marqueur("D5S818"),"","","",""],
-                     [colonne_marqueur("D7S820"),"","","",""],
-                     [colonne_marqueur("D8S1179"),"","","",""],
-                     [colonne_marqueur("FGA"),"","","",""],
-                     [colonne_marqueur("Penta D"),"","","",""],
-                     [colonne_marqueur("Penta E"),"","","",""],
-                     [colonne_marqueur("THO1"),"","","",""],
-                     [colonne_marqueur("TPOX"),"","","",""],
-                     [colonne_marqueur("vWA"),"","","",""]]
+                     ["",colonne("Informativité"),colonne("Résultat"),colonne("Pourcentage de contamination"),colonne("Détails")] ]
+            for marqueur in marqueurs:
+                if marqueur == "AMEL":
+                    continue
+                data.append([colonne_marqueur(marqueur),"","","",""])
         else:
             data = [ [colonne("Marqueurs"),colonne("Contamination materno-fœtale"),"","","",colonne("Concordance des ADN"),""],
-                     ["",colonne("Informativité"),colonne("Résultat"),colonne("Contamination"),colonne("Détails Mère/Fœtus"),colonne("Père/Fœtus"),colonne("Détails allèles père et fœtus")],
-                     [colonne_marqueur("CSF1PO"),"","","","","",""],
-                     [colonne_marqueur("D13S317"),"","","","","",""],
-                     [colonne_marqueur("D16S539"),"","","","","",""],
-                     [colonne_marqueur("D18S51"),"","","","","",""],
-                     [colonne_marqueur("D21S11"),"","","","","",""],
-                     [colonne_marqueur("D3S1358"),"","","","","",""],
-                     [colonne_marqueur("D5S818"),"","","","","",""],
-                     [colonne_marqueur("D7S820"),"","","","","",""],
-                     [colonne_marqueur("D8S1179"),"","","","","",""],
-                     [colonne_marqueur("FGA"),"","","","","",""],
-                     [colonne_marqueur("Penta D"),"","","","","",""],
-                     [colonne_marqueur("Penta E"),"","","","","",""],
-                     [colonne_marqueur("THO1"),"","","","","",""],
-                     [colonne_marqueur("TPOX"),"","","","","",""],
-                     [colonne_marqueur("vWA"),"","","","","",""]]
+                     ["",colonne("Informativité"),colonne("Résultat"),colonne("Contamination"),colonne("Détails Mère/Fœtus"),colonne("Père/Fœtus"),colonne("Détails allèles père et fœtus")]
+                     ]
+            for marqueur in marqueurs:
+                if marqueur == "AMEL":
+                    continue
+                data.append([colonne_marqueur(marqueur),"","","",""])
+            
         
     else: 
         if Concordance_pf=="OUI" or Concordance_pf=="ABS" :
-           data = [ [colonne("Marqueurs"),colonne("Concordances des ADN maternels et fœtaux"),colonne("Détails allèles mère et fœtus")],
-                     [colonne_marqueur("CSF1PO"),"",""],
-                     [colonne_marqueur("D13S317"),"",""],
-                     [colonne_marqueur("D16S539"),"",""],
-                     [colonne_marqueur("D18S51"),"",""],
-                     [colonne_marqueur("D21S11"),"",""],
-                     [colonne_marqueur("D3S1358"),"",""],
-                     [colonne_marqueur("D5S818"),"",""],
-                     [colonne_marqueur("D7S820"),"",""],
-                     [colonne_marqueur("D8S1179"),"",""],
-                     [colonne_marqueur("FGA"),"",""],
-                     [colonne_marqueur("Penta D"),"",""],
-                     [colonne_marqueur("Penta E"),"",""],
-                     [colonne_marqueur("THO1"),"",""],
-                     [colonne_marqueur("TPOX"),"",""],
-                     [colonne_marqueur("vWA"),"",""]]
+           data = [ [colonne("Marqueurs"),colonne("Concordances des ADN maternels et fœtaux"),colonne("Détails allèles mère et fœtus")]]
+           for marqueur in marqueurs:
+                if marqueur == "AMEL":
+                    continue
+                data.append([colonne_marqueur(marqueur),"","","",""])
         else:
-             data = [ [colonne("Marqueurs"),colonne("Concordance des ADN maternels et fœtaux"),colonne("Détails allèles mère et fœtus"),colonne("Concordance des ADN paternels et fœtaux"),colonne("Détails allèles père et fœtus")],
-                     [colonne_marqueur("CSF1PO"),"","","",""],
-                     [colonne_marqueur("D13S317"),"","","",""],
-                     [colonne_marqueur("D16S539"),"","","",""],
-                     [colonne_marqueur("D18S51"),"","","",""],
-                     [colonne_marqueur("D21S11"),"","","",""],
-                     [colonne_marqueur("D3S1358"),"","","",""],
-                     [colonne_marqueur("D5S818"),"","","",""],
-                     [colonne_marqueur("D7S820"),"","","",""],
-                     [colonne_marqueur("D8S1179"),"","","",""],
-                     [colonne_marqueur("FGA"),"","","",""],
-                     [colonne_marqueur("Penta D"),"","","",""],
-                     [colonne_marqueur("Penta E"),"","","",""],
-                     [colonne_marqueur("THO1"),"","","",""],
-                     [colonne_marqueur("TPOX"),"","","",""],
-                     [colonne_marqueur("vWA"),"","","",""]]
+             data = [ [colonne("Marqueurs"),colonne("Concordance des ADN maternels et fœtaux"),colonne("Détails allèles mère et fœtus"),colonne("Concordance des ADN paternels et fœtaux"),colonne("Détails allèles père et fœtus")]]
+             for marqueur in marqueurs:
+                if marqueur == "AMEL":
+                    continue
+                data.append([colonne_marqueur(marqueur),"","","",""])
              
              
     return CHU_HEADER,HEADER,data
@@ -342,11 +300,6 @@ def resultats(data,dataframe,Concordance_mf, Concordance_pf):
                 if dataframe["Détails_M_F"][marqueurs-2] not in ['Echo','Mère homozygote','Mêmes allèles que la mère']:
                     data[marqueurs][3] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
                     data[marqueurs][4] = " / "
-                    #  if dataframe["Détails_M_F"][marqueurs-2] != "":
-                    #      data[marqueurs][4] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
-                    #  else:
-                    #      data[marqueurs][3] = " / "
-                    #  data[marqueurs][3] = " / "
                 else:
                      data[marqueurs][3] = " / "
                      data[marqueurs][4] = style_resultat_tableau(dataframe["Détails_M_F"][marqueurs-2])
@@ -634,7 +587,7 @@ def disposition_pdf(CHU_HEADER,HEADER,nom_utilisateur,tableau_principal,canv,Con
 
 
 
-def creation_PDF(path,Echantillon,nom_pdf, choix_utilisateur, nom_utilisateur, seuil_pic, seuil_marqueur,seuil_pourcentage,temoin_positif, temoin_negatif,Entite_d_Application, Emetteur, version):
+def creation_PDF(path,Echantillon,nom_pdf, choix_utilisateur, nom_utilisateur, seuil_pic, seuil_marqueur,seuil_pourcentage,temoin_positif, temoin_negatif,Entite_d_Application, Emetteur, version,marqueurs):
     '''
     Input: 
       path : path to the directory to create the pdf
@@ -655,6 +608,7 @@ def creation_PDF(path,Echantillon,nom_pdf, choix_utilisateur, nom_utilisateur, s
       Entite_d_Application (string) : 
       Emetteur (string) : 
       version (string) : version of the software
+      marqueurs : List of the marqueurs whose are in the kit
     Function: Creates a PDF according to the parameters given, in the directory gave by path
     Output: New pdf file
     '''
@@ -684,7 +638,7 @@ def creation_PDF(path,Echantillon,nom_pdf, choix_utilisateur, nom_utilisateur, s
     
     canv = init_pdf(path,nom_pdf,Concordance_mf, Concordance_pf)
     
-    CHU_HEADER,HEADER,data = creat_struct_pdf(Concordance_mf, Concordance_pf, Entite_d_Application,Emetteur,version)
+    CHU_HEADER,HEADER,data = creat_struct_pdf(Concordance_mf, Concordance_pf, Entite_d_Application,Emetteur,version,marqueurs)
 
     l_info = resultats(data,Echantillon.get_resultats(),Concordance_mf, Concordance_pf)
 
